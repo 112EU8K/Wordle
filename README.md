@@ -1,7 +1,7 @@
 # Wordle-CPP-SFML (Modified Version)
 
 ## Overview
-This is a modified version of the Wordle clone originally created by [Squirrelbear](https://github.com/Squirrelbear/Wordle-CPP-SMFL). The project is built using **C++** and **SFML** for graphical rendering. Various enhancements and bug fixes have been applied to improve functionality and maintainability.
+This is a modified version of the Wordle clone created by [Squirrelbear](https://github.com/Squirrelbear/Wordle-CPP-SMFL). The project is built using **C++** and **SFML** for graphical rendering. Various enhancements and bug fixes have been applied to improve functionality and maintainability.
 
 ## Features
 - **Word validation**: Ensures that guessed words exist in the dictionary.
