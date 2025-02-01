@@ -1,4 +1,4 @@
-# Wordle-CPP-SFML (Modified Version) -Written by ChatGPT because  ¯\\_(ツ)_/¯ 
+# Wordle-CPP-SFML (Modified Version) -Written by ChatGPT because  ¯\\__(ツ)__/¯ 
 
 ## Overview
 This is a modified version of the Wordle clone originally created by [Squirrelbear](https://github.com/Squirrelbear/Wordle-CPP-SMFL). The project is built using **C++** and **SFML** for graphical rendering. Various enhancements and bug fixes have been applied to improve functionality and maintainability.
