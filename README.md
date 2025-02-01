@@ -3,6 +3,9 @@
 ## Overview
 This is a modified version of the Wordle clone created by [Squirrelbear](https://github.com/Squirrelbear/Wordle-CPP-SMFL). The project is built using **C++** and **SFML** for graphical rendering. Various enhancements and bug fixes have been applied to improve functionality and maintainability.
 
+## Planned
+Change the .exe file icon.
+
 ## Features
 - **Word validation**: Ensures that guessed words exist in the dictionary.
 - **Error handling**: Displays an error message box in the SFML window when an invalid word is entered.
