@@ -25,7 +25,7 @@ This is a modified version of the Wordle clone created by [Squirrelbear](https:/
    - SFX for `failing`
    - SFX for `winning`
    - `BUTTON PRESS SFX`
-   - `TYPING SOUND --if possible surround-sound`
+   - `surround typing sound`
   - **Add a timer that displays how much it took to guess the word** ~~OR FAIL~~
 
 
