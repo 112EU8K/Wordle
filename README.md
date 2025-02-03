@@ -81,4 +81,5 @@ if (!_wordDatabase->isValidWord(guessedWord)) {
 This project follows the same licensing as the original repository. See `LICENSE` for details.
 
 ## Notes
-Witten by ChatGPT because  ¯\_(ツ)_/¯
+Written by ChatGPT because  ¯\_(ツ)_/¯
+- The Planned section was written by me ~~**obviously**~~
