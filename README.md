@@ -16,8 +16,16 @@ This is a modified version of the Wordle clone created by [Squirrelbear](https:/
 - **Make the window Full-Screen**
 - **MainMenuTitle**
     ## Maybe...
-  - **Add background music, one for the main menu, one for the game!**
-    - **Add a timer that displays how much it took to guess the word** ~~OR FAIL~~
+  - **Add background music**
+   - music for the main menu
+   - music for the game window
+   - ~~maybe both~~
+  - **Add SFX**
+   - SFX for `typing a word that doesn't exist in the word list`
+   - SFX for `failing`
+   - SFX for `winning`
+   - `BUTTON PRESS SFX`
+  - **Add a timer that displays how much it took to guess the word** ~~OR FAIL~~
 
 
 ## Key Code Changes & Fixes
