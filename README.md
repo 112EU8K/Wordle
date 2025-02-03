@@ -15,36 +15,10 @@ This is a modified version of the Wordle clone created by [Squirrelbear](https:/
 - **Change the .exe file icon**
 - **Make the window Full-Screen**
 - **MainMenuTitle**
-
     ## Maybe...
-        - **Add background music, one for the main menu, one for the game!**
-        - **Add a timer that displays how much it took to guess the word** ~~OR FAIL~~
+  - **Add background music, one for the main menu, one for the game!**
+    - **Add a timer that displays how much it took to guess the word** ~~OR FAIL~~
 
-## Installation & Setup
-### Prerequisites
-- **C++ Compiler** (GCC, Clang, or MSVC)
-- **SFML** (Simple and Fast Multimedia Library)
-- **CMake** (optional, for build automation)
-
-### Cloning the Repository
-```sh
-git clone https://github.com/yourusername/Wordle-CPP-SFML-Modified.git
-cd Wordle-CPP-SFML-Modified
-```
-
-### Building the Project
-#### Using Make (Linux/macOS)
-```sh
-mkdir build && cd build
-cmake ..
-make
-./WordleGame
-```
-
-#### Using Visual Studio (Windows)
-1. Open the project in Visual Studio.
-2. Ensure SFML is linked correctly.
-3. Build and run the project.
 
 ## Key Code Changes & Fixes
 ### 1. **Fixing Uninitialized Reference in `SFMLGame`**
