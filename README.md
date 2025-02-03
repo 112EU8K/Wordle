@@ -19,7 +19,7 @@ This is a modified version of the Wordle clone created by [Squirrelbear](https:/
   - **Add background music**
    - music for the main menu
    - music for the game window
-   - ~~maybe both~~
+   - ~~maybe for both~~
   - **Add SFX**
    - SFX for `typing a word that doesn't exist in the word list`
    - SFX for `failing`
