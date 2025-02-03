@@ -18,6 +18,7 @@ This is a modified version of the Wordle clone created by [Squirrelbear](https:/
 
 ## Maybe...
 - **Add background music, one for the main menu, one for the game!**
+- **Add a timer that displays how much it took to guess the word** ~~OR FAIL~~
 
 ## Installation & Setup
 ### Prerequisites
