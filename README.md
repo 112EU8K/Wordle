@@ -12,8 +12,7 @@ This is a modified version of the Wordle clone created by [Squirrelbear](https:/
 
 
 ## Planned
-- **Change the .exe file icon**
-- **Make the window Full-Screen**
+- [] **Make the window Full-Screen**
 - **MainMenuScreen**
     ## Maybe...
   - **Add background music**
