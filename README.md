@@ -12,7 +12,7 @@ This is a modified version of the Wordle clone created by [Squirrelbear](https:/
 
 
 ## Planned
-- [] **Make the window Full-Screen**
+- [x] **Make the window Full-Screen**
 - **MainMenuScreen**
     ## Maybe...
   - **Add background music**
