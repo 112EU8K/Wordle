@@ -4,6 +4,10 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
+/*
+HistogramBar class:
+Represents a single bar on a histogram.
+*/
 class HistogramBar
 {
 public:
