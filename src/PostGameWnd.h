@@ -7,7 +7,10 @@
 #include "HorizontalHistogram.h"
 #include "PlayHistory.h"
 
-
+/*
+PostGameWnd class:
+A class to represent the interface for when the player is viewing the results of their game.
+*/
 class PostGameWnd :
 	public WndInterface
 {
