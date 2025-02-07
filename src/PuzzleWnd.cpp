@@ -50,9 +50,6 @@ void PuzzleWnd::handleMouseMove(const sf::Vector2i & mousePosition)
 
 void PuzzleWnd::handleKeyInput(const sf::Keyboard::Key key)
 {
-
-
-
 	_guessGrid.handleKeyInput(key);
 	if (_guessGrid.getKeyCheckReset()) {
 		_keyboard.applyRules(_guessGrid.getAllRules());
