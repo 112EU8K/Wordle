@@ -26,3 +26,4 @@ void HorizontalHistogram::draw(sf::RenderWindow & renderWindow) const
 		bar->draw(renderWindow);
 	}
 }
+
