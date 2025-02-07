@@ -6,8 +6,6 @@ This is a modified version of the Wordle clone created by [Squirrelbear](https:/
 
 
 
-
-
 ## Planned
 - **MainMenuScreen**
     ## Maybe...
@@ -47,7 +45,3 @@ if (!_wordDatabase->isValidWord(guessedWord)) {
 
 ## License
 This project follows the same licensing as the original repository. See `LICENSE` for details.
-
-## Notes
-- Written by ChatGPT because  **¯\_(ツ)_/¯**
-- The Planned section was written by me ~~**obviously**~~
