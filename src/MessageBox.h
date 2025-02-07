@@ -13,20 +13,18 @@ class MessageBox
 {
 public:
     MessageBox(const sf::Font& font, const std::string& message);
-
-    // Set the message and make it visible
     void showMessage(const std::string& message);
-
-    // Hides the message box
     void hide();
-
-    // Draws the message box if it's visible
     void draw(sf::RenderWindow& window) const;
 
 private:
+    void updateBoxSize();  // New helper function
+
     sf::RectangleShape _background;
     sf::Text _text;
     bool _isVisible;
+    const float PADDING = 20.0f;  // Padding around text
 };
 
 #endif // MESSAGEBOX_H
+
