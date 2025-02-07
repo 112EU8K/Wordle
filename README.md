@@ -3,7 +3,7 @@
 ## Overview
 This is a modified version of the Wordle clone created by [Squirrelbear](https://github.com/Squirrelbear/Wordle-CPP-SMFL).
 
-## Features
+## Game Info
 - **Word validation**: Ensures that guessed words exist in the dictionary.
 - **Error handling**: Displays an error message box in the SFML window when an invalid word is entered.
 - **Random word selection**: Uses `std::default_random_engine` for randomized word selection.
