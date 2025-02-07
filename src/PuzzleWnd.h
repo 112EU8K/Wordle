@@ -6,13 +6,16 @@
 #include "KeyboardWnd.h"
 #include "GuessGrid.h"
 
-
+/*
+PuzzleWnd class:
+Manages the keyboard and inputs from the user to play the Wordle game.
+*/
 class PuzzleWnd :
 	public WndInterface
 {
 public:
 	// Initialises the Puzzle with a new puzzle to be played.
-	PuzzleWnd(const sf::IntRect& bounds, const sf::Font& font, const std::string& solution, std::default_random_engine& randomEngine);
+	PuzzleWnd(const sf::IntRect& bounds, const sf::Font& font, const std::string& solution, std::default_random_engine& randomEngine, WordDatabase& database);
 	virtual ~PuzzleWnd();
 
 	// Updates the current state of the window.
@@ -55,9 +58,6 @@ private:
 	// Title text
 	sf::Text _gameTitle;
 
-	// Author text
-	sf::Text _author;
-
 	// The keyboard used for clicking for input
 	KeyboardWnd _keyboard;
 
@@ -67,4 +67,6 @@ private:
 	// The current state of this window. Changes to finished when ready to close.
 	WndResultState _currentState;
 };
+
+
 #endif // PUZZLEWND_H
