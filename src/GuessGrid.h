@@ -7,12 +7,17 @@
 #include "MessageBox.h"
 #include "WordDatabase.h"
 
+
+/*
+GuessGrid class:
+Shows a grid of guesses with methods to insert or remove letters for the current guess.
+*/
 class GuessGrid :
 	public WndInterface
 {
 public:
 	// Initialises the full grid as an empty set of elements waiting to be filled.
-	GuessGrid(const sf::IntRect& bounds, const sf::Font& font, const std::string& solution, const int maxGuesses, std::default_random_engine& randomEngine);
+	GuessGrid(const sf::IntRect& bounds, const sf::Font& font, const std::string& solution, const int maxGuesses, std::default_random_engine& randomEngine, WordDatabase& database);
 	virtual ~GuessGrid() = default;
 
 	// Does nothing.
@@ -66,7 +71,7 @@ private:
     std::default_random_engine& _randomEngine;
 
     // Reference to the word database
-    WordDatabase _database;
+    WordDatabase &_database; // Changed to reference
 
 	// Position for next insertion
 	int _insertPosition;
@@ -86,4 +91,6 @@ private:
 	// Creates an empty grid based on the specified size
 	void initialiseAllGuesses(const sf::Font & font, const int wordLength, const int maxGuesses);
 };
+
+
 #endif // GUESSGRID_H
