@@ -1,12 +1,14 @@
 #include "GuessGrid.h"
 #include <sstream>
 
-GuessGrid::GuessGrid(const sf::IntRect& bounds, const sf::Font& font, const std::string& solution, const int maxGuesses, std::default_random_engine& randomEngine)
+
+GuessGrid::GuessGrid(const sf::IntRect& bounds, const sf::Font& font, const std::string& solution,
+                     const int maxGuesses, std::default_random_engine& randomEngine, WordDatabase& database)
     : WndInterface(bounds),
       _solution(solution),
       _messageBox(font, ""),
-      _randomEngine(randomEngine), // Store reference to the random engine
-      _database(_randomEngine)     // Pass the random engine to the WordDatabase constructor
+      _randomEngine(randomEngine),
+      _database(database)     // Initialize reference to existing database
 {
     initialiseAllGuesses(font, solution.length(), maxGuesses);
     _solved = false;
