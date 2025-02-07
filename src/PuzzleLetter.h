@@ -3,7 +3,10 @@
 
 #include <SFML/Graphics.hpp>
 
-
+/**
+ * PuzzleLetter class:
+ * Defines a letter that is drawn in a box.
+ */
 class PuzzleLetter
 {
 public:
