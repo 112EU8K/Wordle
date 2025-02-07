@@ -4,7 +4,10 @@
 #include "HistogramBar.h"
 #include <vector>
 
-
+/*
+HistogramBar class:
+Represents a single bar on a histogram.
+*/
 class HorizontalHistogram
 {
 public:
