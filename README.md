@@ -25,17 +25,7 @@ This is a modified version of the Wordle clone created by [Squirrelbear](https:/
 
 
 ## Key Code Changes & Fixes
-### 1. **Fixing Uninitialized Reference in `SFMLGame`**
-The original code contained an uninitialized reference to `std::default_random_engine`. This was fixed by initializing it correctly:
-```cpp
-std::default_random_engine _randomEngine;
-```
-And in the constructor:
-```cpp
-_randomEngine(std::random_device{}())
-```
-
-### 2. **Adding Error Messages for Invalid Words**
+### **Adding Error Messages for Invalid Words**
 Previously, errors were only logged to `std::cerr`. Now, an on-screen message box is displayed when a guessed word is invalid:
 ```cpp
 if (!_wordDatabase->isValidWord(guessedWord)) {
