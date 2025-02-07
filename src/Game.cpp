@@ -1,13 +1,14 @@
 #include "Game.h"
 #include <chrono>       // std::chrono::system_clock
+#include <iostream>
 #include "PuzzleWnd.h"
 #include "PostGameWnd.h"
 
-Game::Game(const sf::IntRect & gameBounds, const sf::Font & font, std::default_random_engine& randomEngine)
-	: _bounds(gameBounds), _font(font)
+Game::Game(sf::RenderWindow& window, const sf::IntRect& gameBounds, const sf::Font& font, std::default_random_engine& randomEngine)
+    : _window(window), _bounds(gameBounds), _font(font), _randomEngine(randomEngine)
 {
 	unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-	_randomEngine = std::default_random_engine(seed);
+	_randomEngine.seed(seed);
 	_wordDatabase = std::make_unique<WordDatabase>(_randomEngine);
 	_playHistory = std::make_unique<PlayHistory>("SAVEFILE/save.dat");
 
@@ -17,13 +18,14 @@ Game::Game(const sf::IntRect & gameBounds, const sf::Font & font, std::default_r
 
 	// Create buttons for selecting word count (3 to 12)
 	for (int i = 3; i <= 12; ++i) {
-	    _buttons.emplace_back(sf::IntRect(1100, 50 + (i - 3) * 50, 50, 40), std::to_string(i), i, font);
+        float buttonX = _window.getSize().x * 0.9f; // 90% from the left
+        float buttonY = 50 + (i - 3) * 50;
+        _buttons.emplace_back(sf::IntRect(buttonX, buttonY, 50, 40), std::to_string(i), i, font);
 	}
 
 	// Default: Start with a random word length
-	_activeInterface = new PuzzleWnd(gameBounds, font, _wordDatabase->getRandomWord(), randomEngine);
+	_activeInterface = new PuzzleWnd(gameBounds, font, _wordDatabase->getRandomWord(), randomEngine, *_wordDatabase);
 }
-
 
 Game::~Game()
 {
@@ -40,7 +42,7 @@ void Game::update(const float deltaTime)
 			delete _activeOverlay;
 			_activeOverlay = nullptr;
 			delete _activeInterface;
-			_activeInterface = new PuzzleWnd(_bounds, _font, _wordDatabase->getRandomWord(), _randomEngine);
+			_activeInterface = new PuzzleWnd(_bounds, _font, _wordDatabase->getRandomWord(), _randomEngine, *_wordDatabase);
 		}
 		else if (_activeOverlay->getResultState() == WndResultState::Quit) {
 			_terminateGame = true;
@@ -81,27 +83,35 @@ void Game::draw(sf::RenderWindow & renderWindow) const
 
 void Game::handleMousePress(const sf::Vector2i & mousePosition, bool isLeft)
 {
-	if (_activeOverlay != nullptr) {
-		_activeOverlay->handleMousePress(mousePosition, isLeft);
-	}
-	else if (_activeInterface != nullptr) {
-		_activeInterface->handleMousePress(mousePosition, isLeft);
-	}
+    sf::Vector2f worldPos = _window.mapPixelToCoords(mousePosition);
 
-	// Check if any button was clicked
-	for (const auto& button : _buttons) {
-		if (button.isPositionInside(mousePosition)) {
-			_wordDatabase->loadDatabase(button.getActionID()); // Load words for selected length
-			_activeInterface = new PuzzleWnd(_bounds, _font, _wordDatabase->getRandomWord(), _randomEngine); // Start new puzzle
-			break;
-		}
-	}
+    if (_activeOverlay != nullptr) {
+        _activeOverlay->handleMousePress(static_cast<sf::Vector2i>(worldPos), isLeft);
+    }
+    else if (_activeInterface != nullptr) {
+        _activeInterface->handleMousePress(static_cast<sf::Vector2i>(worldPos), isLeft);
+    }
 
+    for (auto& button : _buttons) {
+        if (button.isPositionInside(static_cast<sf::Vector2i>(worldPos))) {
+            int newWordLength = button.getActionID();
 
+            if (newWordLength != _wordDatabase->getCurrentWordLength()) {
+                _wordDatabase->loadDatabase(newWordLength);
+            }
+
+            // Instead of creating a new WordDatabase, just update the interface
+            _activeInterface = new PuzzleWnd(_bounds, _font, _wordDatabase->getRandomWord(), _randomEngine, *_wordDatabase);
+            break;
+        }
+    }
 }
+
+
 
 void Game::handleMouseMove(const sf::Vector2i & mousePosition)
 {
+
 	if (_activeOverlay != nullptr) {
 		_activeOverlay->handleMouseMove(mousePosition);
 	}
