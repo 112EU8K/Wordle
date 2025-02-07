@@ -2,25 +2,46 @@
 
 MessageBox::MessageBox(const sf::Font& font, const std::string& message)
 {
-    _background.setSize(sf::Vector2f(400, 100));
-    _background.setFillColor(sf::Color(50, 50, 50, 200)); // Semi-transparent gray
-    _background.setOutlineThickness(2);
-    _background.setOutlineColor(sf::Color::White);
-    _background.setPosition(440, 310); // Centered in 1280x720 window
-
     _text.setFont(font);
     _text.setString(message);
     _text.setCharacterSize(24);
     _text.setFillColor(sf::Color::White);
-    _text.setPosition(460, 340);
 
+    _background.setFillColor(sf::Color(50, 50, 50, 200));
+    _background.setOutlineThickness(2);
+    _background.setOutlineColor(sf::Color::White);
+
+    updateBoxSize();
     _isVisible = false;
 }
 
 void MessageBox::showMessage(const std::string& message)
 {
     _text.setString(message);
+    updateBoxSize();
     _isVisible = true;
+}
+
+void MessageBox::updateBoxSize()
+{
+    // Get the local bounds of the text
+    sf::FloatRect textBounds = _text.getLocalBounds();
+
+    // Calculate new background size with padding
+    float boxWidth = textBounds.width + (PADDING * 2);
+    float boxHeight = textBounds.height + (PADDING * 2);
+    _background.setSize(sf::Vector2f(boxWidth, boxHeight));
+
+    // Center the background in the window (assuming 1280x720)
+    float backgroundX = (1280 - boxWidth) / 2;
+    float backgroundY = (720 - boxHeight) / 2;
+    _background.setPosition(backgroundX, backgroundY);
+
+    // Center the text within the background
+    // We need to account for the text's origin being at the top-left of its bounds
+    float textX = backgroundX + PADDING - textBounds.left;
+    float textY = backgroundY + PADDING - textBounds.top;
+    _text.setPosition(textX, textY);
 }
 
 void MessageBox::hide()
@@ -35,4 +56,3 @@ void MessageBox::draw(sf::RenderWindow& window) const
         window.draw(_text);
     }
 }
-
