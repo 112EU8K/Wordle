@@ -8,11 +8,18 @@
 #include <memory>
 #include "Button.h"
 
+class SFMLGame;
+
+
+/*
+Game class:
+Manages instances of the puzzle window.
+*/
 class Game
 {
 public:
-	// Initialises the game with the Lobby.
-	Game(const sf::IntRect& gameBounds, const sf::Font& font, std::default_random_engine& randomEngine);
+	// Initialises the game.
+	Game(sf::RenderWindow& window, const sf::IntRect& gameBounds, const sf::Font& font, std::default_random_engine& randomEngine);
 	virtual ~Game();
 
 	// Updates the current state of the active window.
@@ -34,6 +41,9 @@ public:
 	bool getGameCloseRequested();
 
 private:
+    	// Reference to the window
+    	sf::RenderWindow& _window; // Store a reference instead of calling SFMLGame::getWindow()
+
 	// Bounds of the game area.
 	const sf::IntRect _bounds;
 
@@ -58,9 +68,7 @@ private:
 	// The player's saved history
 	std::unique_ptr<PlayHistory> _playHistory;
 
-
-    std::vector<Button> _buttons; // Stores number selection buttons
-
+    	std::vector<Button> _buttons; // Stores number selection buttons
 };
 
 #endif // GAME_H
