@@ -4,6 +4,11 @@
 #include <vector>
 #include <random>
 
+
+/*
+WordDatabase class:
+Manages a collection of words.
+*/
 class WordDatabase
 {
 public:
@@ -18,15 +23,24 @@ public:
 	std::string getRandomWord() const;
 
 	// Loads the word list in and sorts in alphabetically
-	void loadDatabase(int wordCount);
+	void loadDatabase(size_t wordCount);
+
+	int getCurrentWordLength() const;
 
 private:
 	// The database
 	std::vector<std::string> _words;
 
+	// So be it!
+	int random_number();
+
 	// Shared randomEngine used for all the randomisation.
 	std::default_random_engine& _randomEngine;
 
+	// I think not!
+	int _currentWordLength;
 
 };
+
+
 #endif // WORDDATABASE_H
