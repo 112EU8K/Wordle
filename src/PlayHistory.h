@@ -4,6 +4,11 @@
 #include <vector>
 #include <string>
 
+
+/*
+PlayHistory class:
+Manages a history of played games storing the results to a file.
+*/
 class PlayHistory
 {
 public:
@@ -60,4 +65,6 @@ private:
 	// Initialises a default dataset with 0s for everything.
 	void initialiseDefault();
 };
+
+
 #endif // PLAYHISTORY_H
