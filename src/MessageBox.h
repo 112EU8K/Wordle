@@ -4,6 +4,11 @@
 #include <SFML/Graphics.hpp>
 #include <string>
 
+
+/*
+Message Class:
+Shows an error when a word isn't found in the list.x
+*/
 class MessageBox
 {
 public:
