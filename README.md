@@ -9,6 +9,7 @@ This is a modified version of the Wordle clone created by [Squirrelbear](https:/
 ## Planned
 - **MainMenuScreen**
 - **Load progress from previous word count selection! Restart when full!**
+- **Customizable Colors**
     ## Maybe...
   - **Add background music**
    - music for the main menu
