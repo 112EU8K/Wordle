@@ -42,8 +42,8 @@ if (!_wordDatabase->isValidWord(guessedWord)) {
   - **Gray**: Incorrect letter.
 
 ## Credits
-- Original code by [Squirrelbear](https://github.com/Squirrelbear/Wordle-CPP-SMFL).
-- Modifications and enhancements by `112EU8K`.
+- Original code by [Squirrelbear](https://github.com/Squirrelbear).
+- Modifications and enhancements by [112EU8K](https://github.com/112EU8K).
 
 ## License
 This project follows the same licensing as the original repository. See `LICENSE` for details.
