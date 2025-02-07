@@ -30,7 +30,9 @@ void GuessGrid::draw(sf::RenderWindow & renderWindow) const
 
 void GuessGrid::handleKeyInput(const sf::Keyboard::Key key)
 {
-     _messageBox.hide(); // Hide any previous messages
+     if (key != sf::Keyboard::Enter) {  // Only hide message if it's not an Enter press
+        _messageBox.hide();
+    }
 	int keyCode = static_cast<int>(key);
 	if (keyCode >= 0 && keyCode <= 25) {
 		tryInsertLetter(static_cast<char>(keyCode + 'A'));
@@ -69,21 +71,26 @@ void GuessGrid::backSpace()
 void GuessGrid::checkSolution()
 {
 	// If solved or word is not full do nothing.
-	if (_solved || _insertPosition != _guessLetters.at(_currentWordIndex).size())
+	if (_solved)
 		return;
 
     std::string guessedWord;
     for (const auto& letter : _guessLetters.at(_currentWordIndex)) {
-        guessedWord += letter.getLetter();
+        if (letter.getLetter() != ' ') {  // Only add non-empty letters
+            guessedWord += letter.getLetter();
+        }
     }
 
     std::transform(guessedWord.begin(), guessedWord.end(), guessedWord.begin(), ::toupper);
 
-    if (!_database.isValidWord(guessedWord)) {
+
+    if (guessedWord.size() < _database.getCurrentWordLength()) {
+        _messageBox.showMessage("Too Short");
+        return;
+    } else if (!_database.isValidWord(guessedWord)) {
         _messageBox.showMessage("WORD NOT FOUND!");
         return;
     }
-
 
 	int solveCount = 0;
 	for (int i = 0; i < _solution.length(); i++) {
