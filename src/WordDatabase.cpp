@@ -37,10 +37,9 @@ void WordDatabase::loadDatabase(size_t wordCount)
 {
     _currentWordLength = wordCount;
     _words.clear();
-
-    std::ifstream file("FILEWORDS/merged.txt");
+    std::ifstream file("FILEWORDS/words" + std::to_string(_currentWordLength) + ".txt");
     if (!file.is_open()) {
-        std::cerr << "Error: Failed to open merged.txt" << std::endl;
+        std::cerr << "Error: Failed to open txt file" << std::endl;
         return;
     }
 
