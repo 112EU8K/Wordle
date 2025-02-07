@@ -1,20 +1,32 @@
 #include "SFMLGame.h"
+#include <iostream>
 
 #define WINDOW_WIDTH 1280
 #define WINDOW_HEIGHT 720
 #define FONT_FILE_PATH "FONTS/arial.ttf"
 
-SFMLGame::SFMLGame()
-	: _window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Wordle - by Peter Mitchell (2025 edit by 112EU8K)", sf::Style::Titlebar | sf::Style::Close),
-      _font(loadFont()),
-      _randomEngine(std::random_device{}()),  // Initialize random engine properly
-      _game(sf::IntRect(0, 0, WINDOW_WIDTH, WINDOW_HEIGHT), _font, _randomEngine) // Pass the random engine
+// Define the static member
+sf::RenderWindow SFMLGame::_window(sf::VideoMode(WINDOW_WIDTH, WINDOW_HEIGHT), "Wordle - expanded Edition", sf::Style::Default);
+
+
+// SFMLGame.cpp - Simplified constructor
+SFMLGame::SFMLGame(Game &game)
+    : _font(loadFont()),
+      _game(game)  // Only initialize what we need
 {
     if (!_icon.loadFromFile("WINDOWICON/Wordle_2021_icon.png"))
     {
-        return; // Error handling if file not found
+        std::cerr << "Failed to load window icon" << std::endl;
     }
-    _window.setIcon(_icon.getSize().x, _icon.getSize().y, _icon.getPixelsPtr());
+    else
+    {
+        _window.setIcon(_icon.getSize().x, _icon.getSize().y, _icon.getPixelsPtr());
+    }
+}
+
+sf::RenderWindow& SFMLGame::getWindow()
+{
+    return _window;
 }
 
 void SFMLGame::gameLoop()
@@ -62,3 +74,4 @@ sf::Font SFMLGame::loadFont()
 
 	return font;
 }
+
