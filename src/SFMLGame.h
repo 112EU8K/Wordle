@@ -1,38 +1,29 @@
 #ifndef SFMLGAME_H
 #define SFMLGAME_H
 
-
+#include <iostream>
 #include "Game.h"
 
+/*
+SMFLGame class:
+Manages the sf::RenderWindow and game loop by passing information to the Game class.
+*/
 
 class SFMLGame
 {
 public:
-	// Initialises the game ready to start.
-	SFMLGame();
-	virtual ~SFMLGame() = default;
+    SFMLGame(Game &game);
+    virtual ~SFMLGame() = default;
 
-	// Continues running the game until
-	void gameLoop();
+    static sf::RenderWindow &getWindow();
+    void gameLoop();
 
 private:
-	// The window used for the game until it ends.
-	sf::RenderWindow _window;
-
-	// The font used throughout the game.
-	sf::Font _font;
-
-	// icon
-	sf::Image _icon;
-
-	// Reference to the Game used to manage all the interfaces within the game.
-	Game _game;
-
-	// uhhh
-	std::default_random_engine _randomEngine;  // Change reference to a value
-
-	// Loads the font
-	static sf::Font loadFont();
+    static sf::RenderWindow _window;
+    sf::Font _font;
+    sf::Image _icon;
+    Game &_game;
+    static sf::Font loadFont();
 };
-
 #endif // SFMLGAME_H
+
