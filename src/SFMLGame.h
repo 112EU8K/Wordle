@@ -17,6 +17,7 @@ public:
 
     static sf::RenderWindow &getWindow();
     void gameLoop();
+    void handleResize(unsigned int width, unsigned int height);
 
 private:
     static sf::RenderWindow _window;
@@ -25,5 +26,6 @@ private:
     Game &_game;
     static sf::Font loadFont();
 };
-#endif // SFMLGAME_H
 
+
+#endif // SFMLGAME_H
