@@ -50,7 +50,9 @@ void SFMLGame::gameLoop()
 			}
 			else if (event.type == sf::Event::KeyPressed) {
 				_game.handleKeyInput(event.key.code);
-			}
+			} else if (event.type == sf::Event::Resized) {
+                handleResize(event.size.width, event.size.height);
+            }
 		}
 		_game.update(deltaTime);
 
@@ -64,6 +66,31 @@ void SFMLGame::gameLoop()
 	}
 }
 
+
+void SFMLGame::handleResize(unsigned int width, unsigned int height)
+{
+    // Calculate the scale factor to maintain aspect ratio
+    float windowRatio = width / (float)height;
+    float gameRatio = WINDOW_WIDTH / (float)WINDOW_HEIGHT;
+
+    sf::View view;
+    if (windowRatio > gameRatio) {
+        // Window is wider than game ratio
+        float viewHeight = WINDOW_HEIGHT;
+        float viewWidth = viewHeight * windowRatio;
+        view.setSize(viewWidth, viewHeight);
+        view.setCenter(WINDOW_WIDTH/2.f, WINDOW_HEIGHT/2.f);
+    } else {
+        // Window is taller than game ratio
+        float viewWidth = WINDOW_WIDTH;
+        float viewHeight = viewWidth / windowRatio;
+        view.setSize(viewWidth, viewHeight);
+        view.setCenter(WINDOW_WIDTH/2.f, WINDOW_HEIGHT/2.f);
+    }
+
+    _window.setView(view);
+}
+
 sf::Font SFMLGame::loadFont()
 {
 	sf::Font font;
@@ -74,4 +101,3 @@ sf::Font SFMLGame::loadFont()
 
 	return font;
 }
-
