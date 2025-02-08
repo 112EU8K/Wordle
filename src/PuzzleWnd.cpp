@@ -1,11 +1,10 @@
 #include "PuzzleWnd.h"
 
-PuzzleWnd::PuzzleWnd(const sf::IntRect & bounds, const sf::Font & font, const std::string& solution, std::default_random_engine& randomEngine)
-	: WndInterface(bounds), _font(font), _gameTitle("Wordle", font, 50), _author("by Peter Mitchell\neditted by 112EU8K", font, 15),
-	_keyboard(bounds, font), _guessGrid(bounds, font, solution, 6, randomEngine)
+PuzzleWnd::PuzzleWnd(const sf::IntRect & bounds, const sf::Font & font, const std::string& solution, std::default_random_engine& randomEngine, WordDatabase& database)
+	: WndInterface(bounds), _font(font), _gameTitle("Wordle", font, 50),
+	_keyboard(bounds, font), _guessGrid(bounds, font, solution, 6, randomEngine, database)
 {
 	_gameTitle.setPosition(sf::Vector2f(5, 5));
-	_author.setPosition(sf::Vector2f(5, 5 + 10 + 50));
 	_currentState = WndResultState::NothingState;
 }
 
@@ -23,7 +22,6 @@ void PuzzleWnd::update(const float deltaTime)
 void PuzzleWnd::draw(sf::RenderWindow & renderWindow) const
 {
 	renderWindow.draw(_gameTitle);
-	renderWindow.draw(_author);
 	_keyboard.draw(renderWindow);
 	_guessGrid.draw(renderWindow);
 }
