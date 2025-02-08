@@ -22,10 +22,13 @@ public:
 	// Returns a random word from the database.
 	std::string getRandomWord() const;
 
+    void setWordLength(size_t wordLength);
+
 	// Loads the word list in and sorts in alphabetically
 	void loadDatabase(size_t wordCount);
 
 	int getCurrentWordLength() const;
+
 
 private:
 	// The database
