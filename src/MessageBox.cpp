@@ -56,3 +56,4 @@ void MessageBox::draw(sf::RenderWindow& window) const
         window.draw(_text);
     }
 }
+
