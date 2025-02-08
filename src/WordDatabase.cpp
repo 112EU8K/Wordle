@@ -9,7 +9,6 @@ WordDatabase::WordDatabase(std::default_random_engine & randomEngine)
     : _randomEngine(randomEngine)
 {
     _currentWordLength = random_number();
-    std::cerr << "New WordDatabase created with default word length: " << _currentWordLength << std::endl;
     loadDatabase(_currentWordLength);
 }
 
@@ -63,6 +62,12 @@ void WordDatabase::loadDatabase(size_t wordCount)
     std::sort(_words.begin(), _words.end());
 }
 
+void WordDatabase::setWordLength(size_t wordLength)
+{
+    _currentWordLength = wordLength;
+    loadDatabase(_currentWordLength);
+}
+
 int WordDatabase::random_number()
 {
     std::random_device rd;
@@ -70,3 +75,4 @@ int WordDatabase::random_number()
     std::uniform_int_distribution<int> dist(3, 12);
     return dist(gen);
 }
+
