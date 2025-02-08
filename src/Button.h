@@ -41,6 +41,12 @@ public:
 	// Uses preset colours to change the background colour only if the specified colourID is greater than the current value.
 	void applyColourID(const int colourID);
 
+	void setEnabled(bool enabled);
+
+	bool isEnabled() const;
+
+	sf::IntRect getBounds();
+
 private:
 	// The bounds of the rectangle used for isPositionInside().
 	sf::IntRect _bounds;
@@ -62,6 +68,9 @@ private:
 
 	// The current colour ID set via applyColourID.
 	int _colourID;
+
+    	// For word length
+	bool _isEnabled;
 };
 
 #endif // BUTTON_H
