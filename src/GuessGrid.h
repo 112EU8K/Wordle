@@ -68,10 +68,10 @@ private:
 	MessageBox _messageBox;
 
 	// Reference to a random engine
-    std::default_random_engine& _randomEngine;
+    	std::default_random_engine& _randomEngine;
 
-    // Reference to the word database
-    WordDatabase &_database; // Changed to reference
+   	 // Reference to the word database
+    	WordDatabase &_database; // Changed to reference
 
 	// Position for next insertion
 	int _insertPosition;
