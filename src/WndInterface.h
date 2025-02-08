@@ -2,7 +2,6 @@
 #define WNDINTERFACE_H
 
 
-
 #include <SFML/Graphics.hpp>
 
 // States available for returning from WndInterface::getResultState().
@@ -86,4 +85,5 @@ protected:
 };
 
 #endif // WNDINTERFACE_H
+
 
