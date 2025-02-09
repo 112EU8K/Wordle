@@ -8,7 +8,7 @@ This is a modified version of a Wordle clone created by [Squirrelbear](https://g
   - **Find all the words in each length**
   - **Add a general timer**
   - **Add a clear progress button**
-  - **Split words into different files for different categories gameplay**
+  - **Split words into different files for different categories of gameplay**
   - **Add hint button**
   - **Add a Time Attack mode where you have a set of words in a specified time**
    ## Maybe...
@@ -40,8 +40,8 @@ if (!_wordDatabase->isValidWord(guessedWord)) {
 ## Gameplay
 - Players have a limited number of attempts to guess the correct word.
 - Letters are color-coded to indicate correctness:
-  - **Green**: Correct letter in the correct position.
-  - **Yellow**: Correct letter but in the wrong position.
+  - **Green**: The correct letter is in the correct position.
+  - **Yellow**: The correct letter but in the wrong position.
   - **Gray**: Incorrect letter.
 
 ## Credits
@@ -49,4 +49,4 @@ if (!_wordDatabase->isValidWord(guessedWord)) {
 - Modifications and enhancements by [112EU8K](https://github.com/112EU8K).
 
 ## License
-This project follows the same licensing as the original repository. See `LICENSE` for details.
+This project follows the same licensing as the original repository. See [LICENSE](https://github.com/112EU8K/Wordle/blob/main/LICENSE) for details.
