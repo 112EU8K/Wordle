@@ -16,7 +16,7 @@ This is a modified version of a Wordle clone created by [Squirrelbear](https://g
    - **`themes`**
    - **Transition effect**
    - **Increase attempts**
-   - **Abackground music**
+   - **background music**
    - **Add SFX**
        - SFX for `words that don't exist`
        - SFX for `failing`
