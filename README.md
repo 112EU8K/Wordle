@@ -1,4 +1,4 @@
-# Wordle-CPP-SFML (Modified Version)
+ # Wordle-CPP-SFML (Modified Version)
 
 ## Overview
 This is a modified version of a Wordle clone created by [Squirrelbear](https://github.com/Squirrelbear/Wordle-CPP-SMFL).
