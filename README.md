@@ -4,7 +4,6 @@
 This is a modified version of the Wordle clone created by [Squirrelbear](https://github.com/Squirrelbear/Wordle-CPP-SMFL).
 
 
-
 ## Planned
   - **Find all the words in each length**
    ## Maybe...
