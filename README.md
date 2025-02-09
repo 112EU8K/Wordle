@@ -6,7 +6,6 @@ This is a modified version of the Wordle clone created by [Squirrelbear](https:/
 
 
 ## Planned
-- **Customizable Colors**
     ## Maybe...
   - **Add background music**
    - music for the main menu
