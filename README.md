@@ -6,7 +6,7 @@ This is a modified version of a Wordle clone created by [Squirrelbear](https://g
 
 ## Planned
   - **Find all the words in each length**
-  - **Add general timer**
+  - **Addgeneral timer**
   - **Add a clear progress button**
   - **Split words into different files for different categories of gameplay**
   - **Add hint button**
