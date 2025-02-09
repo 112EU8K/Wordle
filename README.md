@@ -9,7 +9,7 @@ This is a modified version of a Wordle clone created by [Squirrelbear](https://g
   - **Add a general timer**
   - **Add a clear progress button**
   - **Split words into different files for different categories gameplay**
-  - ** Add hint button**
+  - **Add hint button**
    ## Maybe...
    - **Increase attempts**
    - **Add background music**
