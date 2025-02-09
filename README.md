@@ -10,7 +10,7 @@ This is a modified version of a Wordle clone created by [Squirrelbear](https://g
   - **Add a clear progress button**
   - **Split words into different files for different categories gameplay**
   - **Add hint button**
-  - **Add a Time Attack mode**
+  - **Add a Time Attack mode where you have a set of words in a specified time**
    ## Maybe...
    - **Increase attempts**
    - **Add background music**
