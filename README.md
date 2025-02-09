@@ -6,7 +6,7 @@ This is a modified version of the Wordle clone created by [Squirrelbear](https:/
 
 
 ## Planned
-  - **Find all the words in each word count**
+  - **Find all the words in each length**
    ## Maybe...
    - **Increase attempts**
    - **Add background music**
