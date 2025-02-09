@@ -12,7 +12,7 @@ This is a modified version of a Wordle clone created by [Squirrelbear](https://g
   - **Add hint button**
   - **Add a Time Attack mode where you have a set of words in a specified time**
    ## Maybe...
-   - **a dictionary** 
+   - **a dictionary**
    - **`themes`**
    - **Transition effect**
    - **Increase attempts**
