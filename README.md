@@ -8,6 +8,7 @@ This is a modified version of a Wordle clone created by [Squirrelbear](https://g
   - **Find all the words in each length**
   - **Add a general timer**
   - **Add a clear progress button**
+  - ** Add hint button**
    ## Maybe...
    - **Increase attempts**
    - **Add background music**
