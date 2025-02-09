@@ -5,7 +5,6 @@ This is a modified version of the Wordle clone created by [Squirrelbear](https:/
 
 
 
-
 ## Planned
   - **Find all the words in each difficulty**  
    ## Maybe...
