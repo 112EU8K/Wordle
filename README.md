@@ -10,7 +10,7 @@ This is a modified version of the Wordle clone created by [Squirrelbear](https:/
    - **Increase attempts**
    - **Add background music**
   - **Add SFX**
-       - SFX for `typing a word that doesn't exist in the word list`
+       - SFX for `words that don't exist`
        - SFX for `failing`
        - SFX for `winning`
    - `BUTTON PRESS SFX`
