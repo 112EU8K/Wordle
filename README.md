@@ -6,18 +6,16 @@ This is a modified version of the Wordle clone created by [Squirrelbear](https:/
 
 
 ## Planned
-    ## Maybe...
-  - **Add background music**
-   - music for the main menu
-   - music for the game window
-   - ~~maybe for both~~
+  - **Find all the words in each difficulty**  
+   ## Maybe...
+   - **Add background music**
   - **Add SFX**
-   - SFX for `typing a word that doesn't exist in the word list`
-   - SFX for `failing`
-   - SFX for `winning`
+       - SFX for `typing a word that doesn't exist in the word list`
+       - SFX for `failing`
+       - SFX for `winning`
    - `BUTTON PRESS SFX`
    - `surround typing sound`
-  - **Add a timer that displays how much it took to guess the word** ~~OR FAIL~~
+  - **Add a timer that displays how much it took to guess the word**
 
 
 ## Key Code Changes & Fixes
