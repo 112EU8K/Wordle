@@ -12,7 +12,8 @@ This is a modified version of a Wordle clone created by [Squirrelbear](https://g
    ## Maybe...
    - **Increase attempts**
    - **Add background music**
-  - **Add SFX**
+   - **Add AI-Like assistant**
+   - **Add SFX**
        - SFX for `words that don't exist`
        - SFX for `failing`
        - SFX for `winning`
