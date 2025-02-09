@@ -10,7 +10,7 @@ This is a modified version of a Wordle clone created by [Squirrelbear](https://g
   - **Clear Progress Button**
   - **Split words into different files for different categories of gameplay**
   - **Add hint button**
-  - **Add a Time Attack mode where you have a set of words in a specified time**
+  - **Time Attack mode: Guess all the words in a specified time**
    ## Maybe...
    - **`Android Version`**
    - **a dictionary**
