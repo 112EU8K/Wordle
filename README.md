@@ -8,6 +8,7 @@ This is a modified version of the Wordle clone created by [Squirrelbear](https:/
 ## Planned
   - **Find all the words in each difficulty**
    ## Maybe...
+   - **Increase attempts**
    - **Add background music**
   - **Add SFX**
        - SFX for `typing a word that doesn't exist in the word list`
