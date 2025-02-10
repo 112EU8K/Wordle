@@ -1,200 +1,181 @@
-#include "Game.h"
-#include <chrono>       // std::chrono::system_clock
+#include "game.h"
+#include <chrono>
 #include <iostream>
-#include "PuzzleWnd.h"
-#include "PostGameWnd.h"
-#include "MenuWnd.h"
-#include "PauseWnd.h"
+#include "puzzle_window.h"
+#include "post_game_window.h"
+#include "menu_window.h"
+#include "pause_window.h"
 
-// Game.cpp changes - Update constructor:
-Game::Game(sf::RenderWindow& window, const sf::IntRect& gameBounds, const sf::Font& font, std::default_random_engine& randomEngine)
-    : _window(window), _bounds(gameBounds), _font(font), _randomEngine(randomEngine), _inMenu(true), _isPaused(false)
+
+game::game(sf::RenderWindow &win, const sf::IntRect &game_bounds, const sf::Font &font, std::default_random_engine &random)
+    : window(win), bounds(game_bounds), font(font), random_engine(random), in_menu(true), is_paused(false)
 {
     std::cout.setstate(std::ios_base::failbit);
     unsigned seed = std::chrono::system_clock::now().time_since_epoch().count();
-    _randomEngine.seed(seed);
-    _wordDatabase = std::make_unique<WordDatabase>(_randomEngine);
-    _playHistory = std::make_unique<PlayHistory>("SAVEFILE/save.dat");
+    random_engine.seed(seed);
+    word_data = std::make_unique<word_data_base>(random);
+    history = std::make_unique<play_history>("SAVEFILE/save.dat");
 
-    _terminateGame = false;
-    _activeInterface = nullptr;
-    _activeOverlay = nullptr;
+    terminate_game = false;
+    active_interface = nullptr;
+    active_overlay = nullptr;
 
-    // Start with menu
-    _activeInterface = new MenuWnd(gameBounds, font, *_wordDatabase);
+    active_interface = new menu_window(bounds, font, *word_data);
 }
 
-Game::~Game() {
-    delete _activeInterface;
-    delete _activeOverlay;
+game::~game() {
+    delete active_interface;
+    delete active_overlay;
 }
 
 
-void Game::updateButtonStates()
+void game::update_button_states()
 {
-    bool shouldEnableButtons = true;
+    bool should_enable_buttons = true;
 
-    if (_activeInterface != nullptr) {
-        auto* puzzleWnd = dynamic_cast<PuzzleWnd*>(_activeInterface);
-        if (puzzleWnd && !puzzleWnd->getGuessGrid().isSolved() &&
-            puzzleWnd->getGuessGrid().hasMoreGuesses() &&
-            _activeOverlay == nullptr) {
-            shouldEnableButtons = false;
+    if (active_interface != nullptr) {
+        auto* puzzle = dynamic_cast<puzzle_window*>(active_interface);
+        if (puzzle && !puzzle->get_guess_grid().is_solved() &&
+            puzzle->get_guess_grid().has_more_guesses() &&
+            active_overlay == nullptr) {
+            should_enable_buttons = false;
         }
     }
 
-    for (auto& button : _buttons) {
-        button.setEnabled(shouldEnableButtons);
+    for (auto& button : buttons) {
+        button.set_enabled(should_enable_buttons);
     }
 }
 
-// Game.cpp - Update update method:
-void Game::update(const float deltaTime)
+void game::update(const float delta_time)
 {
-    if (_activeOverlay != nullptr) {
-        _activeOverlay->update(deltaTime);
-        std::cout << "Update called: _inMenu = " << _inMenu << std::endl;
-        if (_activeOverlay->getResultState() == WndResultState::Restart) {
-            delete _activeOverlay;
-            _activeOverlay = nullptr;
-            // If we're in game (not menu), start a new game with current word length
-            if (!_inMenu) {
-                delete _activeInterface;
-                _activeInterface = new PuzzleWnd(_bounds, _font, _wordDatabase->getRandomWord(), _randomEngine, *_wordDatabase);
+    if (active_overlay != nullptr) {
+        active_overlay->update(delta_time);
+        if (active_overlay->get_result_state() == window_result_state::restart) {
+            delete active_overlay;
+            active_overlay = nullptr;
+            if (!in_menu) {
+                delete active_interface;
+                active_interface = new puzzle_window(bounds, font, word_data->get_random_word(), random_engine, *word_data);
             } else {
-                delete _activeInterface;
-                _activeInterface = new MenuWnd(_bounds, _font, *_wordDatabase);
+                delete active_interface;
+                active_interface = new menu_window(bounds, font, *word_data);
             }
-        } else if (_activeOverlay != nullptr && _activeOverlay->getResultState() == WndResultState::Menu) {
-                std::cout << "Returning to Menu from Pause!" << std::endl;
-
-                delete _activeOverlay;
-                _activeOverlay = nullptr;
-                delete _activeInterface;
-                _activeInterface = new MenuWnd(_bounds, _font, *_wordDatabase);
-                _inMenu = true;
-                _isPaused = false;
+        } else if (active_overlay != nullptr && active_overlay->get_result_state() == window_result_state::menu) {
+                delete active_overlay;
+                active_overlay = nullptr;
+                delete active_interface;
+                active_interface = new menu_window(bounds, font, *word_data);
+                in_menu = true;
+                is_paused = false;
         }
-        else if (_activeOverlay->getResultState() == WndResultState::Finished) {
-            // Handle word length change from pause menu
-            auto* pauseWnd = dynamic_cast<PauseWnd*>(_activeOverlay);
-            if (pauseWnd) {
-                int newWordLength = pauseWnd->getSelectedWordLength();
-                if (newWordLength != _wordDatabase->getCurrentWordLength()) {
-                    _wordDatabase->loadDatabase(newWordLength);
-                    delete _activeInterface;
-                    _activeInterface = new PuzzleWnd(_bounds, _font, _wordDatabase->getRandomWord(), _randomEngine, *_wordDatabase);
+        else if (active_overlay->get_result_state() == window_result_state::finished) {
+            auto* pause = dynamic_cast<pause_window*>(active_overlay);
+            if (pause) {
+                int new_word_length = pause->get_selected_word_length();
+                if (new_word_length != word_data->get_current_word_length()) {
+                    word_data->load_data_base(new_word_length);
+                    delete active_interface;
+                    active_interface = new puzzle_window(bounds, font, word_data->get_random_word(), random_engine, *word_data);
                 }
             }
-            delete _activeOverlay;
-            _activeOverlay = nullptr;
-            _isPaused = false;
+            delete active_overlay;
+            active_overlay = nullptr;
+            is_paused = false;
         }
     }
 
-    if (_activeInterface != nullptr && _activeInterface->getResultState() == WndResultState::Finished) {
-        std::cout << "Switching from MenuWnd to PuzzleWnd!" << std::endl;
-
-        delete _activeInterface;
-        _activeInterface = new PuzzleWnd(_bounds, _font, _wordDatabase->getRandomWord(), _randomEngine, *_wordDatabase);
-        _inMenu = false;
+    if (active_interface != nullptr && active_interface->get_result_state() == window_result_state::finished) {
+        delete active_interface;
+        active_interface = new puzzle_window(bounds, font, word_data->get_random_word(), random_engine, *word_data);
+        in_menu = false;
         }
-    std::cout << "Active Interface: " << typeid(*_activeInterface).name() << std::endl;
 }
 
-void Game::handleMousePress(const sf::Vector2i & mousePosition, bool isLeft)
+void game::handle_mouse_press(const sf::Vector2i & mouse_position, bool is_left)
 {
-    // Convert screen coordinates to world coordinates
-    //sf::Vector2f worldPos = _window.mapPixelToCoords(mousePosition);
+    //sf::Vector2f world_pos = _window.mapPixelToCoords(mouse_position);
 
-    std::cout << "Mouse Clicked at: " << mousePosition.x << ", " << mousePosition.y << std::endl;
+    for (auto& button : buttons) {
+        if (button.enabled() && button.is_position_inside(mouse_position)) {
+            int new_word_length = button.get_action_id();
 
-    // Handle word length buttons with proper coordinate conversion
-    for (auto& button : _buttons) {
-        std::cout << "Button Bounds: " << button.getBounds().left << ", " << button.getBounds().top
-                  << ", " << button.getBounds().width << ", " << button.getBounds().height << std::endl;
-        if (button.isEnabled() && button.isPositionInside(mousePosition)) {  // Use original coordinates for button check
-            int newWordLength = button.getActionID();
-
-            if (newWordLength != _wordDatabase->getCurrentWordLength()) {
-                _wordDatabase->loadDatabase(newWordLength);
-                delete _activeInterface;
-                _inMenu = false;
-                _activeInterface = new PuzzleWnd(_bounds, _font, _wordDatabase->getRandomWord(), _randomEngine, *_wordDatabase);
-                if (_activeOverlay != nullptr) {
-                    delete _activeOverlay;
-                    _activeOverlay = nullptr;
+            if (new_word_length != word_data->get_current_word_length()) {
+                word_data->load_data_base(new_word_length);
+                delete active_interface;
+                in_menu = false;
+                active_interface = new puzzle_window(bounds, font, word_data->get_random_word(), random_engine, *word_data);
+                if (active_overlay != nullptr) {
+                    delete active_overlay;
+                    active_overlay = nullptr;
                 }
-                _inMenu = false;
+                in_menu = false;
             }
 
             break;
         }
     }
 
-    // Handle regular game input with proper coordinate conversion
-    if (_activeOverlay != nullptr) {
-        _activeOverlay->handleMousePress(mousePosition, isLeft);  // Use original coordinates
+    if (active_overlay != nullptr) {
+        active_overlay->handle_mouse_press(mouse_position, is_left);
     }
-    else if (_activeInterface != nullptr) {
-        _activeInterface->handleMousePress(mousePosition, isLeft);  // Use original coordinates
+    else if (active_interface != nullptr) {
+        active_interface->handle_mouse_press(mouse_position, is_left);
     }
 
-    updateButtonStates();
+    update_button_states();
 }
 
-void Game::draw(sf::RenderWindow & renderWindow) const
+void game::draw(sf::RenderWindow & render_window) const
 {
-    if (_activeInterface != nullptr) {
-        _activeInterface->draw(renderWindow);
+    if (active_interface != nullptr) {
+        active_interface->draw(render_window);
     }
 
-    if (_activeOverlay != nullptr) {
-        _activeOverlay->draw(renderWindow);
+    if (active_overlay != nullptr) {
+        active_overlay->draw(render_window);
     }
 
-    // Draw buttons
-    for (const auto& button : _buttons) {
-        button.draw(renderWindow);
+    for (const auto& button : buttons) {
+        button.draw(render_window);
     }
 }
 
-void Game::handleMouseMove(const sf::Vector2i & mousePosition)
+void game::handle_mouse_move(const sf::Vector2i & mouse_position)
 {
-    // Use original screen coordinates for hover detection
-    if (_activeOverlay != nullptr) {
-        _activeOverlay->handleMouseMove(mousePosition);
+    if (active_overlay != nullptr) {
+        active_overlay->handle_mouse_move(mouse_position);
     }
-    else if (_activeInterface != nullptr) {
-        _activeInterface->handleMouseMove(mousePosition);
+    else if (active_interface != nullptr) {
+        active_interface->handle_mouse_move(mouse_position);
     }
 }
-// Add to Game::handleKeyInput method:
-void Game::handleKeyInput(const sf::Keyboard::Key key) {
-    if (key == sf::Keyboard::Escape && !_inMenu) {
-        if (!_isPaused && _activeOverlay == nullptr) {
-            _isPaused = true;
-            auto* pauseMenu = new PauseWnd(_bounds, _font);
-            pauseMenu->setCurrentWordLength(_wordDatabase->getCurrentWordLength());
-            _activeOverlay = pauseMenu;
+
+void game::handle_key_input(const sf::Keyboard::Key key) {
+    if (key == sf::Keyboard::Escape && !in_menu) {
+        if (!is_paused && active_overlay == nullptr) {
+            is_paused = true;
+            auto* pause_menu = new pause_window(bounds, font);
+            pause_menu->set_current_word_length(word_data->get_current_word_length());
+            active_overlay = pause_menu;
         }
-        else if (_isPaused) {
-            delete _activeOverlay;
-            _activeOverlay = nullptr;
-            _isPaused = false;
+        else if (is_paused) {
+            delete active_overlay;
+            active_overlay = nullptr;
+            is_paused = false;
         }
         return;
     }
-
-    if (_activeOverlay != nullptr) {
-        _activeOverlay->handleKeyInput(key);
+    if (active_overlay != nullptr) {
+        active_overlay->handle_key_input(key);
     }
-    else if (_activeInterface != nullptr) {
-        _activeInterface->handleKeyInput(key);
+    else if (active_interface != nullptr) {
+        active_interface->handle_key_input(key);
     }
 }
 
-bool Game::getGameCloseRequested()
+bool game::get_game_close_requested()
 {
-    return _terminateGame;
+    return terminate_game;
 }
+
