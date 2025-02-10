@@ -3,55 +3,36 @@
 
 #include <SFML/Graphics.hpp>
 
-/**
- * PuzzleLetter class:
- * Defines a letter that is drawn in a box.
- */
-class PuzzleLetter
+class puzzle_letter
 {
 public:
-	// Defines the state used for solutions
-	enum SolutionState { NO_STATE, CORRECT, WRONG_POS };
+	enum solution_state { NO_STATE, CORRECT, WRONG_POS };
 
-	/**
-	* Defaults to an empty letter at the position.
-	*/
-	PuzzleLetter(const sf::IntRect& bounds, const sf::Font& font);
-	virtual ~PuzzleLetter() = default;
+	puzzle_letter(const sf::IntRect &bounds, const sf::Font &font);
+	virtual ~puzzle_letter() = default;
 
-	// Draws the button
-	void draw(sf::RenderWindow& renderWindow) const;
+	void draw(sf::RenderWindow &render_window) const;
 
-	// Gets the letter associated with the object
-	char getLetter() const;
+	char get_letter() const;
 
-	// Sets the letter to the specified letter.
-	void setLetter(const char letter);
+	void set_letter(const char letter);
 
-	// Changes the background colour and stores the solution state.
-	void setSolutionState(const SolutionState& solutionState);
+	void set_solution_state(const solution_state &solution_state);
 
-	// Get solution state of this element
-	SolutionState getSolutionState() const;
+	solution_state get_solution_state() const;
 
 private:
-	// The bounds of the rectangle used for isPositionInside().
-	sf::IntRect _bounds;
+	sf::IntRect bounds;
 
-	// The character shown on the puzzle letter.
-	char _letter;
+	char letter;
 
-	// Element Background
-	sf::RectangleShape _background;
+	sf::RectangleShape back_ground;
 
-	// Text Render
-	sf::Text _textVisual;
+	sf::Text text_visual;
 
-	// The current solution state of this letter.
-	SolutionState _currentState;
+	solution_state current_state;
 
-	// Changes the background colour to the specified colour.
-	void setBackgroundColour(const sf::Color& colour);
+	void set_background_colour(const sf::Color &colour);
 };
 
 #endif // PUZZLELETTER_H
