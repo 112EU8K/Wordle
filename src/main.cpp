@@ -1,5 +1,5 @@
-#include "SFMLGame.h"
-// main.cpp - Simplified initialization
+#include "sfml_game.h"
+
 int main() {
     sf::Font font;
     if (!font.loadFromFile("FONTS/arial.ttf")) {
@@ -7,13 +7,13 @@ int main() {
         return -1;
     }
 
-    std::default_random_engine randomEngine(std::random_device{}());
+    std::default_random_engine random_engine(std::random_device{}());
 
-    Game game(SFMLGame::getWindow(), sf::IntRect(0, 0, 1280, 720), font, randomEngine);
+    game game(sfml_game::get_window(), sf::IntRect(0, 0, 1280, 720), font, random_engine);
 
-    SFMLGame sfmlGame(game);
+    sfml_game sfml_game(game);
 
-    sfmlGame.gameLoop();
+    sfml_game.game_loop();
 
     return 0;
 }
