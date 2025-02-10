@@ -29,6 +29,9 @@ This is a modified version of a Wordle clone created by [Squirrelbear](https://g
    - `surround typing sound`
   - **timer that displays how much it took to guess the word**
 
+## TODO
+  - Fix resizing the window
+  - After the player wins or loses nothing happen, I should fix that
 
 ## Key Code Changes & Fixes
 ### **Adding Error Messages for Invalid Words**
