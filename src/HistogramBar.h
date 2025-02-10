@@ -4,32 +4,24 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
-/*
-HistogramBar class:
-Represents a single bar on a histogram.
-*/
-class HistogramBar
+
+class histogram_bar
 {
 public:
-	// Initialises the histogram bar with text and size.
-	HistogramBar(const sf::IntRect& bounds, const sf::Font& font, const int title, const int value, const int max);
-	virtual ~HistogramBar() = default;
 
-	// Draws the bar
-	void draw(sf::RenderWindow & renderWindow) const;
+	histogram_bar(const sf::IntRect &bounds, const sf::Font &font, const int title, const int value, const int max);
+	virtual ~histogram_bar() = default;
 
-	// Changes the bar colour to the specified colour
-	void setBarColour(const sf::Color& colour);
+	void draw(sf::RenderWindow &render_window) const;
+
+	void set_bar_colour(const sf::Color &colour);
 
 private:
-	// The title text on the left
-	std::unique_ptr<sf::Text> _titleText;
+	std::unique_ptr<sf::Text> title_text;
 
-	// The bar visual
-	std::unique_ptr<sf::RectangleShape> _bar;
+	std::unique_ptr<sf::RectangleShape> bar;
 
-	// The value of the element.
-	std::unique_ptr<sf::Text> _valueText;
+	std::unique_ptr<sf::Text> value_text;
 };
 
 #endif // HISTOGRAMBAR_H
