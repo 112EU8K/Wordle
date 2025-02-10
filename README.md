@@ -16,6 +16,7 @@ This is a modified version of a Wordle clone created by [Squirrelbear](https://g
    ## Maybe...
    - **`Android Version`**
    - **a dictionary**
+   - **Scrolling BackGround**
    - **`themes`**
    - **Transition effect**
    - **Increase attempts**
@@ -26,7 +27,7 @@ This is a modified version of a Wordle clone created by [Squirrelbear](https://g
        - SFX for `winning`
    - `BUTTON PRESS SFX`
    - `surround typing sound`
-  - **Add a timer that displays how much it took to guess the word**
+  - **timer that displays how much it took to guess the word**
 
 
 ## Key Code Changes & Fixes
