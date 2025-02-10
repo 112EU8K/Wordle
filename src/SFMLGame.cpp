@@ -51,7 +51,7 @@ void SFMLGame::gameLoop()
 			else if (event.type == sf::Event::KeyPressed) {
 				_game.handleKeyInput(event.key.code);
 			} else if (event.type == sf::Event::Resized) {
-                handleResize(event.size.width, event.size.height);
+                		handleResize(event.size.width, event.size.height);
             }
 		}
 		_game.update(deltaTime);
