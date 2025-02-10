@@ -1,205 +1,192 @@
-#include "GuessGrid.h"
+#include "guess_grid.h"
 #include <sstream>
 
 
-GuessGrid::GuessGrid(const sf::IntRect& bounds, const sf::Font& font, const std::string& solution,
-                     const int maxGuesses, std::default_random_engine& randomEngine, WordDatabase& database)
-    : WndInterface(bounds),
-      _solution(solution),
-      _messageBox(font, ""),
-      _randomEngine(randomEngine),
-      _database(database)     // Initialize reference to existing database
+guess_grid::guess_grid(const sf::IntRect& bounds, const sf::Font& font, const std::string& so,
+                     const int max_guesses, std::default_random_engine& random, word_data_base& data)
+    : window_interface(bounds),
+      message_box(font),
+      random_engine(random),
+      data_base(data),
+      solution(so)
 {
-    initialiseAllGuesses(font, solution.length(), maxGuesses);
-    _solved = false;
-    _currentWordIndex = 0;
-    _insertPosition = 0;
-    _usedKeyCheck = false;
+    initialise_all_guesses(font, solution.length(), max_guesses);
+    solved = false;
+    current_word_index = 0;
+    insert_position = 0;
+    used_key_check = false;
 }
 
 
-void GuessGrid::draw(sf::RenderWindow & renderWindow) const
+void guess_grid::draw(sf::RenderWindow & render_window) const
 {
-	for (const auto& row : _guessLetters) {
+	for (const auto& row : guess_letters) {
 		for (const auto& letter : row) {
-			letter.draw(renderWindow);
+			letter.draw(render_window);
 		}
 	}
-	 _messageBox.draw(renderWindow);
+	 message_box.draw(render_window);
 }
 
-void GuessGrid::handleKeyInput(const sf::Keyboard::Key key)
+void guess_grid::handle_key_input(const sf::Keyboard::Key key)
 {
-     if (key != sf::Keyboard::Enter) {  // Only hide message if it's not an Enter press
-        _messageBox.hide();
+     if (key != sf::Keyboard::Enter) {
+        message_box.hide();
     }
-	int keyCode = static_cast<int>(key);
-	if (keyCode >= 0 && keyCode <= 25) {
-		tryInsertLetter(static_cast<char>(keyCode + 'A'));
+	int key_code = static_cast<int>(key);
+	if (key_code >= 0 && key_code <= 25) {
+		try_insert_letter(static_cast<char>(key_code + 'A'));
 	}
 	else if (key == sf::Keyboard::Backspace) {
-		backSpace();
+		back_space();
 	}
 	else if (key == sf::Keyboard::Enter) {
-		checkSolution();
-		_usedKeyCheck = true;
+		check_solution();
+		used_key_check = true;
 	}
 }
 
-void GuessGrid::tryInsertLetter(const char letter)
+void guess_grid::try_insert_letter(const char letter)
 {
-	// If max guesses reached, solved, or current guess is full do nothing.
-	if (_currentWordIndex == _guessLetters.size() || _solved || _insertPosition == _guessLetters.at(_currentWordIndex).size())
+	if (static_cast<size_t>(current_word_index) == guess_letters.size() || solved || static_cast<size_t>(insert_position) == guess_letters[current_word_index].size())
 		return;
 
-	// Insert the letter and move one position forward.
-	_guessLetters.at(_currentWordIndex).at(_insertPosition).setLetter(letter);
-	++_insertPosition;
+	guess_letters[current_word_index][insert_position].set_letter(letter);
+	insert_position++;
 }
 
-void GuessGrid::backSpace()
+void guess_grid::back_space()
 {
-	// Do nothing if there are no letters to backspace at or it has been solved
-	if (_solved || _insertPosition == 0 || _currentWordIndex == _guessLetters.size())
+	if (solved || insert_position == 0 || static_cast<size_t>(current_word_index) == guess_letters.size())
 		return;
 
-	// Move back and erase one
-	--_insertPosition;
-	_guessLetters.at(_currentWordIndex).at(_insertPosition).setLetter(' ');
+	insert_position--;
+	guess_letters[current_word_index][insert_position].set_letter(' ');
 }
 
-void GuessGrid::checkSolution()
+void guess_grid::check_solution()
 {
-	// If solved or word is not full do nothing.
-	if (_solved)
-		return;
+	if (solved) return;
 
-    std::string guessedWord;
-    for (const auto& letter : _guessLetters.at(_currentWordIndex)) {
-        if (letter.getLetter() != ' ') {  // Only add non-empty letters
-            guessedWord += letter.getLetter();
+    std::string guessed_word;
+    for (const auto& letter : guess_letters[current_word_index]) {
+        if (letter.get_letter() != ' ') {
+            guessed_word += letter.get_letter();
         }
     }
 
-    std::transform(guessedWord.begin(), guessedWord.end(), guessedWord.begin(), ::toupper);
+    std::transform(guessed_word.begin(), guessed_word.end(), guessed_word.begin(), ::toupper);
 
 
-    if (guessedWord.size() < _database.getCurrentWordLength()) {
-        _messageBox.showMessage("Too Short");
+    if (guessed_word.size() < static_cast<size_t>(data_base.get_current_word_length())) {
+        message_box.show_message("TOO SHORT");
         return;
-    } else if (!_database.isValidWord(guessedWord)) {
-        _messageBox.showMessage("WORD NOT FOUND!");
+    } else if (!data_base.is_valid_word(guessed_word)) {
+        message_box.show_message("WORD NOT FOUND!");
         return;
     }
 
-	int solveCount = 0;
-	for (int i = 0; i < _solution.length(); i++) {
-		char guess = _guessLetters.at(_currentWordIndex).at(i).getLetter();
-		if (guess == _solution.at(i)) {
-			_guessLetters.at(_currentWordIndex).at(i).setSolutionState(PuzzleLetter::SolutionState::CORRECT);
-			++solveCount;
+	int solve_count = 0;
+	for (size_t i = 0; i < solution.length(); i++) {
+		char guess = guess_letters[current_word_index][i].get_letter();
+		if (guess == solution.at(i)) {
+			guess_letters[current_word_index][i].set_solution_state(puzzle_letter::solution_state::CORRECT);
+			solve_count++;
 		}
 		else {
-			// If the letter is in the solution
-			int requiredLetterCount = std::count(_solution.begin(), _solution.end(), guess);
-			if (requiredLetterCount > 0) {
-				// Find the matching positions for incorrect placement and the number of correct placements.
-				int correctPositionThisLetter = 0;
-				std::vector<int> outOfPositionPositions;
-				for (int j = 0; j < _guessLetters.at(_currentWordIndex).size(); j++) {
-					if (guess == _guessLetters.at(_currentWordIndex).at(j).getLetter()) {
-						if (guess == _solution.at(j)) {
-							correctPositionThisLetter++;
+			int required_letter_count = std::count(solution.begin(), solution.end(), guess);
+			if (required_letter_count > 0) {
+				int correct_position_this_letter = 0;
+				std::vector<int> out_of_position_positions;
+				for (size_t j = 0; j < guess_letters[current_word_index].size(); j++) {
+					if (guess == guess_letters[current_word_index][j].get_letter()) {
+						if (guess == solution[j]) {
+							correct_position_this_letter++;
 						}
 						else {
-							outOfPositionPositions.emplace_back(j);
+							out_of_position_positions.emplace_back(j);
 						}
 					}
 				}
-				// Remove excessive letters
-				while (correctPositionThisLetter + outOfPositionPositions.size() > requiredLetterCount) {
-					outOfPositionPositions.pop_back();
+				while (correct_position_this_letter + out_of_position_positions.size() > static_cast<size_t>(required_letter_count)) {
+					out_of_position_positions.pop_back();
 				}
-
-				// Flag as wrong position only if within reaching the minimum.
-				if (std::find(outOfPositionPositions.begin(), outOfPositionPositions.end(), i) != outOfPositionPositions.end()) {
-					_guessLetters.at(_currentWordIndex).at(i).setSolutionState(PuzzleLetter::SolutionState::WRONG_POS);
+				if (std::find(out_of_position_positions.begin(), out_of_position_positions.end(), i) != out_of_position_positions.end()) {
+					guess_letters[current_word_index][i].set_solution_state(puzzle_letter::solution_state::WRONG_POS);
 				}
 				else {
-					_guessLetters.at(_currentWordIndex).at(i).setSolutionState(PuzzleLetter::SolutionState::NO_STATE);
+					guess_letters[current_word_index][i].set_solution_state(puzzle_letter::solution_state::NO_STATE);
 				}
 			}
 			else {
-				_guessLetters.at(_currentWordIndex).at(i).setSolutionState(PuzzleLetter::SolutionState::NO_STATE);
+				guess_letters[current_word_index][i].set_solution_state(puzzle_letter::solution_state::NO_STATE);
 			}
 		}
 	}
 
-	++_currentWordIndex;
-	_insertPosition = 0;
-	if (solveCount == _solution.length()) {
-		_solved = true;
+	current_word_index++;
+	insert_position = 0;
+	if (static_cast<size_t>(solve_count) == solution.length()) {
+		solved = true;
 	}
 }
 
-bool GuessGrid::isSolved() const
+bool guess_grid::is_solved() const
 {
-	return _solved;
+	return solved;
 }
 
-bool GuessGrid::hasMoreGuesses() const
+bool guess_grid::has_more_guesses() const
 {
-	return _currentWordIndex < _guessLetters.size();
+	return static_cast<size_t>(current_word_index) < guess_letters.size();
 }
 
-std::vector<std::string> GuessGrid::getAllRules() const
+std::vector<std::string> guess_grid::get_all_rules() const
 {
 	std::vector<std::string> rules;
 
-	// Only previous word attempts
-	for (int i = 0; i < _currentWordIndex; i++) {
-		std::stringstream ruleStream;
-		for (int j = 0; j < _solution.length(); j++) {
-			if (_guessLetters.at(i).at(j).getSolutionState() == PuzzleLetter::SolutionState::CORRECT) {
-				ruleStream << "*";
+	for (int i = 0; i < current_word_index; i++) {
+		std::stringstream rule_stream;
+		for (size_t j = 0; j < solution.length(); j++) {
+			if (guess_letters[i][j].get_solution_state() == puzzle_letter::solution_state::CORRECT) {
+				rule_stream << "*";
 			}
-			else if (_guessLetters.at(i).at(j).getSolutionState() == PuzzleLetter::SolutionState::WRONG_POS) {
-				ruleStream << "#";
+			else if (guess_letters[i][j].get_solution_state() == puzzle_letter::solution_state::WRONG_POS) {
+				rule_stream << "#";
 			}
-			ruleStream << _guessLetters.at(i).at(j).getLetter();
+			rule_stream << guess_letters[i][j].get_letter();
 		}
-		rules.emplace_back(ruleStream.str());
+		rules.emplace_back(rule_stream.str());
 	}
 
 	return rules;
 }
 
-bool GuessGrid::getKeyCheckReset()
+bool guess_grid::get_key_check_reset()
 {
-	bool result = _usedKeyCheck;
-	_usedKeyCheck = false;
+	bool result = used_key_check;
+	used_key_check = false;
 	return result;
 }
 
-std::string GuessGrid::getSolution() const
+std::string guess_grid::get_solution() const
 {
-	return _solution;
+	return solution;
 }
 
-std::string GuessGrid::getShareString() const
+std::string guess_grid::get_share_string() const
 {
 	std::stringstream message;
-	message << "Wordle Game" << std::endl << "\"" << _solution << "\": ";
-	message << (_solved ? "Solved: " : "Did not solve: ") << (_currentWordIndex) << "/6" << std::endl <<std::endl;
+	message << "Wordle Game" << std::endl << "\"" << solution << "\": ";
+	message << (solved ? "Solved: " : "Did not solve: ") << (current_word_index) << " / 6" << std::endl << std::endl;
 
-	// generate the puzzle coloured title view
-	for (int i = 0; i < _currentWordIndex; i++) {
-		std::stringstream ruleStream;
-		for (int j = 0; j < _solution.length(); j++) {
-			if (_guessLetters.at(i).at(j).getSolutionState() == PuzzleLetter::SolutionState::CORRECT) {
+	for (int i = 0; i < current_word_index; i++) {
+		std::stringstream rule_stream;
+		for (size_t j = 0; j < solution.length(); j++) {
+			if (guess_letters[i][j].get_solution_state() == puzzle_letter::solution_state::CORRECT) {
 				message << ":green_square:";
 			}
-			else if (_guessLetters.at(i).at(j).getSolutionState() == PuzzleLetter::SolutionState::WRONG_POS) {
+			else if (guess_letters[i][j].get_solution_state() == puzzle_letter::solution_state::WRONG_POS) {
 				message << ":yellow_square:";
 			}
 			else {
@@ -212,22 +199,23 @@ std::string GuessGrid::getShareString() const
 	return message.str();
 }
 
-void GuessGrid::initialiseAllGuesses(const sf::Font & font, const int wordLength, const int maxGuesses)
+void guess_grid::initialise_all_guesses(const sf::Font & font, const int word_length, const int max_guesses)
 {
-	int elementHeight = 60;
-	int elementWidth = 60;
+    const int element_height = 60;
+	const int element_width = 60;
 
-	int leftSide = _bounds.left + _bounds.width / 2 - ((elementWidth + 10) * wordLength) / 2;
-	int posY = _bounds.top + 30;
-	int posX = leftSide;
+	const int left_side = bounds.left + bounds.width / 2 - ((element_width + 10) * word_length) / 2;
+    int pos_y = bounds.top + 30;
+	int pos_x = left_side;
 
-	for (int i = 0; i < maxGuesses; i++, posY += elementHeight + 10, posX = leftSide) {
-		std::vector<PuzzleLetter> row;
+	for (int i = 0; i < max_guesses; i++, pos_y += element_height + 10, pos_x = left_side) {
+		std::vector<puzzle_letter> row;
 
-		for (int j = 0; j < wordLength; j++, posX += elementWidth + 10) {
-			row.emplace_back(PuzzleLetter(sf::IntRect(posX, posY, elementHeight, elementWidth), font));
+		for (int j = 0; j < word_length; j++, pos_x += element_width + 10) {
+			row.emplace_back(puzzle_letter(sf::IntRect(pos_x, pos_y, element_height, element_width), font));
 		}
 
-		_guessLetters.emplace_back(row);
+		guess_letters.emplace_back(row);
 	}
 }
+
