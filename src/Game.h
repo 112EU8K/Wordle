@@ -1,83 +1,59 @@
 #ifndef GAME_H
 #define GAME_H
 
-#include "WndInterface.h"
+#include "window_interface.h"
 #include <random>
-#include "WordDatabase.h"
-#include "PlayHistory.h"
+#include "word_data_base.h"
+#include "play_history.h"
 #include <memory>
-#include "Button.h"
+#include "button.h"
 
-class SFMLGame;
+class sfml_game;
 
-
-/*
-Game class:
-Manages instances of the puzzle window.
-*/
-class Game
+class game
 {
 public:
-	// Initialises the game.
-	Game(sf::RenderWindow& window, const sf::IntRect& gameBounds, const sf::Font& font, std::default_random_engine& randomEngine);
-	virtual ~Game();
+	game(sf::RenderWindow& window, const sf::IntRect& game_bounds, const sf::Font& font, std::default_random_engine& random_engine);
+	virtual ~game();
 
-	// Updates the current state of the active window.
-	void update(const float deltaTime);
+	void update(const float delta_time);
 
-	// Draws the current window.
-	void draw(sf::RenderWindow & renderWindow) const;
+	void draw(sf::RenderWindow & render_window) const;
 
-	// Handles passing events on to the active interface.
-	void handleMousePress(const sf::Vector2i& mousePosition, bool isLeft);
+	void handle_mouse_press(const sf::Vector2i& mouse_position, bool is_left);
 
-	// Handles passing the mouse moved event to the active interface.
-	void handleMouseMove(const sf::Vector2i& mousePosition);
+	void handle_mouse_move(const sf::Vector2i& mouse_position);
 
-	// Handles passing key pressed event to the active interface.
-	void handleKeyInput(const sf::Keyboard::Key key);
+	void handle_key_input(const sf::Keyboard::Key key);
 
-	//  When true, the game should end.
-	bool getGameCloseRequested();
+	bool get_game_close_requested();
 
-	void updateButtonStates();
+	void update_button_states();
 
 private:
-    // Reference to the window
-    sf::RenderWindow& _window; // Store a reference instead of calling SFMLGame::getWindow()
+    	sf::RenderWindow &window;
 
-	// Bounds of the game area.
-	const sf::IntRect _bounds;
+	const sf::IntRect bounds;
 
-	// Reference to the font
-	const sf::Font& _font;
+	const sf::Font& font;
 
-	// Shared randomEngine used for all the randomisation.
-	std::default_random_engine _randomEngine;
+	std::default_random_engine random_engine;
 
-	// Reference to the current active interface.
-	WndInterface* _activeInterface;
+	window_interface* active_interface;
 
-	// Reference to the current active overlay if one exists.
-	WndInterface* _activeOverlay;
+	window_interface* active_overlay;
 
-	// mainmenu
-	bool _inMenu;
+	bool in_menu;
 
-	// pausemenu
-	bool _isPaused;
+	bool is_paused;
 
-	// When true, the game should end.
-	bool _terminateGame;
+	bool terminate_game;
 
-	// Collection of words
-	std::unique_ptr<WordDatabase> _wordDatabase;
+	std::unique_ptr<word_data_base> word_data;
 
-	// The player's saved history
-	std::unique_ptr<PlayHistory> _playHistory;
+	std::unique_ptr<play_history> history;
 
-
-    std::vector<Button> _buttons; // Stores number selection buttons
+    	std::vector<button> buttons;
 };
 
 #endif // GAME_H
