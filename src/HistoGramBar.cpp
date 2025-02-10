@@ -1,32 +1,32 @@
-#include "HistogramBar.h"
+#include "histogram_bar.h"
 
-HistogramBar::HistogramBar(const sf::IntRect & bounds, const sf::Font& font, const int title, const int value, const int max)
+histogram_bar::histogram_bar(const sf::IntRect &bounds, const sf::Font &font, const int title, const int value, const int max)
 {
 
-	_titleText = std::make_unique<sf::Text>(std::to_string(title), font, 20);
-	_titleText->setPosition(sf::Vector2f(bounds.left, bounds.top + bounds.height/2 - 10));
+	title_text = std::make_unique<sf::Text>(std::to_string(title), font, 20);
+	title_text->setPosition(sf::Vector2f(bounds.left, bounds.top + bounds.height / 2 - 10));
 
-	_valueText = std::make_unique<sf::Text>(std::to_string(value), font, 20);
+	value_text = std::make_unique<sf::Text>(std::to_string(value), font, 20);
 	int width = max == 0 ? (bounds.width - 20) : (bounds.width - 20) * value / max;
-	if (width < _valueText->getGlobalBounds().width + 20) {
-		width = _valueText->getGlobalBounds().width + 20;
+	if (width < value_text->getGlobalBounds().width + 20) {
+		width = value_text->getGlobalBounds().width + 20;
 	}
-	sf::IntRect barRect(bounds.left + 20, bounds.top, width, bounds.height);
-	_bar = std::make_unique<sf::RectangleShape>(sf::Vector2f(barRect.width, barRect.height));
-	_bar->setFillColor(sf::Color(40, 40, 40));
-	_bar->setPosition(sf::Vector2f(barRect.left, barRect.top));
+	sf::IntRect bar_rect(bounds.left + 20, bounds.top, width, bounds.height);
+	bar = std::make_unique<sf::RectangleShape>(sf::Vector2f(bar_rect.width, bar_rect.height));
+	bar->setFillColor(sf::Color(40, 40, 40));
+	bar->setPosition(sf::Vector2f(bar_rect.left, bar_rect.top));
 
-	_valueText->setPosition(sf::Vector2f(barRect.left + barRect.width - _valueText->getGlobalBounds().width - 10, bounds.top + bounds.height / 2 - 13));
+	value_text->setPosition(sf::Vector2f(bar_rect.left + bar_rect.width - value_text->getGlobalBounds().width - 10, bounds.top + bounds.height / 2 - 13));
 }
 
-void HistogramBar::draw(sf::RenderWindow & renderWindow) const
+void histogram_bar::draw(sf::RenderWindow &renderWindow) const
 {
-	renderWindow.draw(*_titleText);
-	renderWindow.draw(*_bar);
-	renderWindow.draw(*_valueText);
+	renderWindow.draw(*title_text);
+	renderWindow.draw(*bar);
+	renderWindow.draw(*value_text);
 }
 
-void HistogramBar::setBarColour(const sf::Color & colour)
+void histogram_bar::set_bar_colour(const sf::Color &colour)
 {
-	_bar->setFillColor(colour);
+	bar->setFillColor(colour);
 }
