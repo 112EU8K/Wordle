@@ -1,20 +1,20 @@
 #include "keyboard_window.h"
 
-keyboard_window::keyboard_window(const sf::IntRect& bounds, const sf::Font& font)
+keyboard_window::keyboard_window(const sf::IntRect &bounds, const sf::Font &font)
 	: window_interface(bounds)
 {
 	initialise_buttons(font);
 	action_id = -1;
 }
 
-void keyboard_window::draw(sf::RenderWindow & render_window) const
+void keyboard_window::draw(sf::RenderWindow &render_window) const
 {
 	for (const auto& button : buttons) {
 		button.draw(render_window);
 	}
 }
 
-void keyboard_window::handle_mouse_press(const sf::Vector2i & mouse_position, bool is_left)
+void keyboard_window::handle_mouse_press(const sf::Vector2i &mouse_position, bool is_left)
 {
 	for (auto& button : buttons) {
 		if (button.is_position_inside(mouse_position)) {
@@ -24,7 +24,7 @@ void keyboard_window::handle_mouse_press(const sf::Vector2i & mouse_position, bo
 	}
 }
 
-void keyboard_window::handle_mouse_move(const sf::Vector2i & mouse_position)
+void keyboard_window::handle_mouse_move(const sf::Vector2i &mouse_position)
 {
 	for (auto& button : buttons) {
 		button.set_hovering(button.is_position_inside(mouse_position));
