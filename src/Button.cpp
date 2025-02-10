@@ -1,94 +1,94 @@
-#include "Button.h"
+#include "button.h"
 
-Button::Button(const sf::IntRect & bounds, const std::string & text, const int actionID, const sf::Font& font)
-    : _bounds(bounds), _actionID(actionID), _text(text),
-    _background(sf::Vector2f(_bounds.width - 2, _bounds.height - 2)),
-    _textVisual(text, font, 30)
+button::button(const sf::IntRect & bounds, const std::string & text, const int action_id, const sf::Font& font)
+    : bounds(bounds), action_id(action_id), text(text),
+    background(sf::Vector2f(bounds.width - 2, bounds.height - 2)),
+    text_visual(text, font, 30)
 {
-    _textVisual.setFillColor(sf::Color::White);
-    _textVisual.setStyle(sf::Text::Bold);
-    _textVisual.setPosition(sf::Vector2f(_bounds.left + _bounds.width / 2 - _textVisual.getGlobalBounds().width / 2, _bounds.top + _bounds.height / 2 - 20));
+    this->text_visual.setFillColor(sf::Color(sf::Color::White));
+    this->text_visual.setStyle(sf::Text::Bold);
+    this->text_visual.setPosition(sf::Vector2f(bounds.left + bounds.width / 2 - text_visual.getGlobalBounds().width / 2, bounds.top + bounds.height / 2 - 20));
 
-    _background.setPosition(sf::Vector2f(_bounds.left + 1, _bounds.top + 1));
-    _background.setFillColor(sf::Color(5, 5, 5));
-    _background.setOutlineThickness(1);
-    _background.setOutlineColor(sf::Color::White);
+    this->background.setPosition(sf::Vector2f(bounds.left + 1, bounds.top + 1));
+    this->background.setFillColor(sf::Color(5, 5, 5));
+    this->background.setOutlineThickness(1);
+    this->background.setOutlineColor(sf::Color::White);
 
-    _colourID = 0;
-    _isHovered = false;
-    _isEnabled = true;
+    this->colour_id = 0;
+    this->is_hovered = false;
+    this->is_enabled = true;
 }
 
-void Button::draw(sf::RenderWindow & renderWindow) const
+void button::draw(sf::RenderWindow &render_window) const
 {
-    sf::Color bgColor = _isEnabled ? sf::Color(5, 5, 5) : sf::Color(30, 30, 30);
-    sf::Color textColor = _isEnabled ? sf::Color::White : sf::Color(100, 100, 100);
+    sf::Color bg_color = this->is_enabled ? sf::Color(5, 5, 5) : sf::Color(30, 30, 30);
+    sf::Color text_color = this->is_enabled ? sf::Color::White : sf::Color(100, 100, 100);
 
-    sf::RectangleShape tempBackground = _background;
-    tempBackground.setFillColor(bgColor);
+    sf::RectangleShape temp_background = background;
+    temp_background.setFillColor(sf::Color(bg_color));
 
-    sf::Text tempTextVisual = _textVisual;
-    tempTextVisual.setFillColor(textColor);
+    sf::Text temp_text_visual = text_visual;
+    temp_text_visual.setFillColor(sf::Color(text_color));
 
-    renderWindow.draw(tempBackground);
-    renderWindow.draw(tempTextVisual);
+    render_window.draw(temp_background);
+    render_window.draw(temp_text_visual);
 }
 
-int Button::getActionID() const
+int button::get_action_id() const
 {
-    return _actionID;
+    return this->action_id;
 }
 
-sf::IntRect Button::getBounds()
+sf::IntRect button::get_bounds()
 {
-    return _bounds;
+    return this->bounds;
 }
 
-void Button::setHovering(const bool isHovering)
+void button::set_hovering(const bool is_hovering)
 {
-    if (!_isEnabled) return;  // Don't hover if disabled
-    _isHovered = isHovering;
-    _background.setOutlineThickness(_isHovered ? 3 : 1);
+    if (!this->is_enabled) return;  // Don't hover if disabled
+    is_hovered = is_hovering;
+    background.setOutlineThickness(is_hovered ? 3 : 1);
 }
 
-bool Button::isPositionInside(const sf::Vector2i & mousePosition) const
+bool button::is_position_inside(const sf::Vector2i & mousePosition) const
 {
-    return _isEnabled && _bounds.contains(mousePosition);
+    return this->is_enabled && this->bounds.contains(mousePosition);
 }
 
-void Button::setBackgroundColour(const sf::Color & colour)
+void button::set_background_colour(const sf::Color & colour)
 {
-    _background.setFillColor(colour);
+    this->background.setFillColor(sf::Color(colour));
 }
 
-void Button::applyColourID(const int colourID)
+void button::apply_colour_id(const int colour_id)
 {
-    if (colourID > _colourID) {
-        _colourID = colourID;
-        switch (_colourID) {
+    if (colour_id > this->colour_id) {
+        this->colour_id = colour_id;
+        switch (this->colour_id) {
         case 1:
-            _background.setFillColor(sf::Color(40, 40, 40));
+            this->background.setFillColor(sf::Color(40, 40, 40));
             break;
         case 2:
-            _background.setFillColor(sf::Color(141, 141, 74));
+            this->background.setFillColor(sf::Color(141, 141, 74));
             break;
         case 3:
-            _background.setFillColor(sf::Color(93, 141, 74));
+            this->background.setFillColor(sf::Color(93, 141, 74));
             break;
         }
     }
 }
 
-void Button::setEnabled(bool enabled)
+void button::set_enabled(bool enabled)
 {
-    _isEnabled = enabled;
-    if (!_isEnabled) {
-        _isHovered = false;
-        _background.setOutlineThickness(1);
+    this->is_enabled = enabled;
+    if (!this->is_enabled) {
+        this->is_hovered = false;
+        this->background.setOutlineThickness(1);
     }
 }
 
-bool Button::isEnabled() const
+bool button::enabled() const
 {
-    return _isEnabled;
+    return this->is_enabled;
 }
