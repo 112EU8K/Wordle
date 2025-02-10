@@ -5,6 +5,7 @@ This is a modified version of a Wordle clone created by [Squirrelbear](https://g
 
 
 ## Planned
+  - **log errors to the window**
   - **Find all the words in each length**
   - **General Timer**
   - **Clear Progress Button**
