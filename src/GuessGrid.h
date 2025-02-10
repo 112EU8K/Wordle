@@ -2,95 +2,65 @@
 #define GUESSGRID_H
 
 
-#include "WndInterface.h"
-#include "PuzzleLetter.h"
-#include "MessageBox.h"
-#include "WordDatabase.h"
+#include "window_interface.h"
+#include "puzzle_letter.h"
+#include "message_box.h"
+#include "word_data_base.h"
 
 
-/*
-GuessGrid class:
-Shows a grid of guesses with methods to insert or remove letters for the current guess.
-*/
-class GuessGrid :
-	public WndInterface
+class guess_grid :
+	public window_interface
 {
 public:
-	// Initialises the full grid as an empty set of elements waiting to be filled.
-	GuessGrid(const sf::IntRect& bounds, const sf::Font& font, const std::string& solution, const int maxGuesses, std::default_random_engine& randomEngine, WordDatabase& database);
-	virtual ~GuessGrid() = default;
+	guess_grid(const sf::IntRect& bounds, const sf::Font& font, const std::string& solution, const int max_guesses, std::default_random_engine& random_engine, word_data_base& data_base);
+	virtual ~guess_grid() = default;
 
-	// Does nothing.
-	virtual void update(const float deltaTime) override {};
+	virtual void update(const float delta_time) override {};
 
-	// Draws the grid of guessed letters.
-	virtual void draw(sf::RenderWindow & renderWindow) const override;
+	virtual void draw(sf::RenderWindow & render_window) const override;
 
-	/**
-	 * Handles the key input from a keyboard action.
-	 *
-	 * @param keyCode The key that was pressed.
-	 */
-	virtual void handleKeyInput(const sf::Keyboard::Key key) override;
+	virtual void handle_key_input(const sf::Keyboard::Key key) override;
 
-	// Inserts the specified letter if there is room in the current attempt.
-	void tryInsertLetter(const char letter);
+	void try_insert_letter(const char letter);
 
-	// Removes one letter if possible (does nothing if there is no letter for the current attempt to remove).
-	void backSpace();
+	void back_space();
 
-	// Tests the solution
-	void checkSolution();
+	void check_solution();
 
-	// Check if the solution has been reached
-	bool isSolved() const;
+	bool is_solved() const;
 
-	// Check if the user has run out of guesses
-	bool hasMoreGuesses() const;
+	bool has_more_guesses() const;
 
-	// Gets expressions for all the rules for solving based on guesses
-	std::vector<std::string> getAllRules() const;
+	std::vector<std::string> get_all_rules() const;
 
-	// Get and reset the changed via keys state.
-	bool getKeyCheckReset();
+	bool get_key_check_reset();
 
-	// Gets the solution that the user is matching
-	std::string getSolution() const;
+	std::string get_solution() const;
 
-	// Gets a string representing the finished puzzle state.
-	std::string getShareString() const;
+	std::string get_share_string() const;
 
 private:
-	// The collection of letters
-	std::vector<std::vector<PuzzleLetter>> _guessLetters;
+	std::vector<std::vector<puzzle_letter>> guess_letters;
 
-	// Error Message
-	MessageBox _messageBox;
+	massage_box message_box;
 
-	// Reference to a random engine
-    	std::default_random_engine& _randomEngine;
+    	std::default_random_engine& random_engine;
 
-   	 // Reference to the word database
-    	WordDatabase &_database; // Changed to reference
+    	word_data_base &data_base;
 
-	// Position for next insertion
-	int _insertPosition;
+	int insert_position;
 
-	// Position for the current word
-	int _currentWordIndex;
+	int current_word_index;
 
-	// When true it means the solution has been found.
-	bool _solved;
+	bool solved;
 
-	// Used keys to check
-	bool _usedKeyCheck;
+	bool used_key_check;
 
-	// The solution to check against
-	const std::string _solution;
+	const std::string solution;
 
-	// Creates an empty grid based on the specified size
-	void initialiseAllGuesses(const sf::Font & font, const int wordLength, const int maxGuesses);
+	void initialise_all_guesses(const sf::Font &font, const int word_length, const int max_guesses);
 };
 
 
 #endif // GUESSGRID_H
+
