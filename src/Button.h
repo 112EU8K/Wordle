@@ -4,73 +4,48 @@
 
 #include <SFML/Graphics.hpp>
 
-/**
- * Button class:
- * Defines a simple button consisting of a rectangle region,
- * some text to centre in it, a hover state, and an
- * actionID that is available to give the button context.
- */
-class Button
+
+class button
 {
 public:
-	/**
-	* Sets up the Button ready to display and interact with.
-	*
-	* @param bounds Bounds of the button.
-	* @param actionID A number that can be used to give context for when the button is detected to have been clicked.
-	* @param font Reference to the font.
-	*/
-	Button(const sf::IntRect& bounds, const std::string& text, const int actionID, const sf::Font& font);
-	virtual ~Button() = default;
+	button(const sf::IntRect &bounds, const std::string &text, const int action_id, const sf::Font &font);
+	virtual ~button() = default;
 
-	// Draws the button
-	void draw(sf::RenderWindow& renderWindow) const;
+	void draw(sf::RenderWindow& render_window) const;
 
-	// Gets the actionID associated with the button that can be used for determining what should be done when it is pressed.
-	int getActionID() const;
+	int get_action_id() const;
 
-	// Updates the hovering state to the specified value.
-	void setHovering(const bool isHovering);
+	void set_hovering(const bool is_hovering);
 
-	// returns true if the position is inside this button's bounds.
-	bool isPositionInside(const sf::Vector2i& mousePosition) const;
+	bool is_position_inside(const sf::Vector2i& mousePosition) const;
 
-	// Changes the background colour to the specified colour.
-	void setBackgroundColour(const sf::Color& colour);
+	void set_background_colour(const sf::Color& colour);
 
-	// Uses preset colours to change the background colour only if the specified colourID is greater than the current value.
-	void applyColourID(const int colourID);
+	void apply_colour_id(const int colour_id);
 
-	void setEnabled(bool enabled);
+	void set_enabled(bool enabled);
 
-	bool isEnabled() const;
+	bool enabled() const;
 
-	sf::IntRect getBounds();
+	sf::IntRect get_bounds();
 
 private:
-	// The bounds of the rectangle used for isPositionInside().
-	sf::IntRect _bounds;
 
-	// A number that can be used to give context for when the button is detected to have been clicked.
-	int _actionID;
+	sf::IntRect bounds;
 
-	// True when the mouse is over the rectangle causing a colour change.
-	bool _isHovered;
+	int action_id;
 
-	// Text to centre in the button.
-	std::string _text;
+	bool is_hovered;
 
-	// Button Background
-	sf::RectangleShape _background;
+	std::string text;
 
-	// Text Render
-	sf::Text _textVisual;
+	sf::RectangleShape background;
 
-	// The current colour ID set via applyColourID.
-	int _colourID;
+	sf::Text text_visual;
 
-    	// For word length
-	bool _isEnabled;
+	int colour_id;
+
+	bool is_enabled;
 };
 
-#endif // BUTTON_H
+#endif
