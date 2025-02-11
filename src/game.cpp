@@ -61,13 +61,13 @@ void game::update(const float delta_time)
                 delete active_interface;
                 active_interface = new menu_window(bounds, font, *word_data);
             }
-        } else if (active_overlay != nullptr && active_overlay->get_result_state() == window_result_state::menu) {
-                delete active_overlay;
-                active_overlay = nullptr;
-                delete active_interface;
-                active_interface = new menu_window(bounds, font, *word_data);
-                in_menu = true;
-                is_paused = false;
+        } else if (active_overlay != nullptr && active_overlay->get_result_state() == window_result_state::quit) {
+            delete active_overlay;
+            active_overlay = nullptr;
+            delete active_interface;
+            active_interface = new menu_window(bounds, font, *word_data);
+            in_menu = true;
+            is_paused = false;
         }
         else if (active_overlay->get_result_state() == window_result_state::finished) {
             auto* pause = dynamic_cast<pause_window*>(active_overlay);
@@ -85,11 +85,39 @@ void game::update(const float delta_time)
         }
     }
 
-    if (active_interface != nullptr && active_interface->get_result_state() == window_result_state::finished) {
-        delete active_interface;
-        active_interface = new puzzle_window(bounds, font, word_data->get_random_word(), random_engine, *word_data);
-        in_menu = false;
+    if (active_interface != nullptr) {
+        active_interface->update(delta_time);
+        auto* puzzle = dynamic_cast<puzzle_window*>(active_interface);
+
+        if (puzzle && (puzzle->get_guess_grid().is_solved() || !puzzle->get_guess_grid().has_more_guesses())) {
+            if (active_overlay == nullptr) {
+                bool won = puzzle->get_guess_grid().is_solved();
+                int attempts = 0;
+                for (const auto& rule : puzzle->get_guess_grid().get_all_rules()) {
+                    (void)rule;
+                    attempts++;
+                }
+
+                if (won) {
+                    history->insert_history(attempts - 1);
+                } else {
+                    history->insert_history_loss();
+                }
+
+                active_overlay = new post_game_window(bounds, font,
+                    puzzle->get_guess_grid().get_solution(),
+                    won,
+                    attempts,
+                    history,
+                    puzzle->get_guess_grid().get_share_string());
+            }
         }
+        else if (active_interface->get_result_state() == window_result_state::finished) {
+            delete active_interface;
+            active_interface = new puzzle_window(bounds, font, word_data->get_random_word(), random_engine, *word_data);
+            in_menu = false;
+        }
+    }
 }
 
 void game::handle_mouse_press(const sf::Vector2i & mouse_position, bool is_left)
