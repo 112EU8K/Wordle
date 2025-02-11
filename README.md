@@ -2,7 +2,7 @@
 
 ## Overview
 This is a modified version of a Wordle clone created by [Squirrelbear](https://github.com/Squirrelbear/Wordle-CPP-SMFL).
-
+ 
 
 ## Planned
   - **log errors to the window**
