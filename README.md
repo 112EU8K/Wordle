@@ -20,7 +20,7 @@ This is a modified version of a Wordle clone created by [Squirrelbear](https://g
    - **Scrolling BackGround**
    - **`themes`**
    - **Transition effect**
-   - **Increase attempts**
+   - **memory feature**
    - **background music**
    - **Add SFX**
        - SFX for `words that don't exist`
