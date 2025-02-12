@@ -16,6 +16,7 @@ This is a modified version of a Wordle clone created by [Squirrelbear](https://g
   - **Time Attack mode: Guess all the words in a specified time**
   - **Streaks**
    ## Maybe...
+   - **Load word remotely rather than locally**
    - **`Mobile Version`**
    - **Mac and Linux?**
    - **a dictionary**
