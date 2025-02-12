@@ -15,7 +15,8 @@ This is a modified version of a Wordle clone created by [Squirrelbear](https://g
   - **Time Attack mode: Guess all the words in a specified time**
   - **Streaks**
    ## Maybe...
-   - **`Android Version`**
+   - **`Mobile Version`**
+   - **Mac and Linux?**
    - **a dictionary**
    - **Scrolling BackGround**
    - **`themes`**
