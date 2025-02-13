@@ -8,7 +8,7 @@ This is a modified version of a Wordle clone created by [Squirrelbear](https://g
   - **Vertical Word Guessing**
   - **log errors to the window**
   - **Find all the words in each length**
-  - **General Timer**
+  - **Win Screen**
   - **Clear Progress Button**
   - **Split words into different files for different categories of gameplay**
   - **hint button**
