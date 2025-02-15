@@ -12,7 +12,6 @@ This is a modified version of a Wordle clone created by [Squirrelbear](https://g
   - **Clear Progress Button**
   - **Split words into different files for different categories of gameplay**
   - **hint button**
-  - **give up button**
   - **Time Attack mode: Guess all the words in a specified time**
   - **Streaks**
    ## Maybe...
