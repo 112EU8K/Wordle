@@ -3,7 +3,7 @@
 ## Overview
 This is a modified version of a Wordle clone created by [Squirrelbear](https://github.com/Squirrelbear/Wordle-CPP-SMFL).
 
-## Planned
+## Last Words
  - Fix copy button
  - Add something to the post game window
 
