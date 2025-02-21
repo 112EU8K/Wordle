@@ -12,4 +12,4 @@ This is a modified version of a Wordle clone created by [Squirrelbear](https://g
 - Modifications and enhancements by [112EU8K](https://github.com/112EU8K).
 
 ## License
-This project follows the same licensing as the original repository. See the [LICENSE](https://github.com/112EU8K/Wordle/blob/main/LICENSE) for more details.
+This project follows the same licensing as the original repository. [See LICENSE for more details.](https://github.com/112EU8K/Wordle/blob/main/LICENSE) 
