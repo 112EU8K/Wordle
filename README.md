@@ -4,7 +4,7 @@
 This is a modified version of a Wordle clone created by [Squirrelbear](https://github.com/Squirrelbear/Wordle-CPP-SMFL).
 
 ## Wrap UP
- - Fix copy button
+ - Fix copy button 
  - Add something to the post game window
 
 ## Credits
